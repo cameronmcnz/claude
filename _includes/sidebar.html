@@ -1,0 +1,66 @@
+<nav class="sidebar-nav" aria-label="Course navigation">
+  <!-- Completion progress -->
+  <div class="sidebar-progress-wrap mb-2">
+    <div class="sidebar-progress-label">
+      <span>Your Progress</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress" style="height:6px;">
+      <div class="progress-bar progress-bar-brand" id="sidebar-progress-bar"
+           role="progressbar" style="width:0%;" aria-valuenow="0"
+           aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+
+  <!-- Accordion nav tree -->
+  <div class="accordion accordion-flush" id="courseNav">
+    {% for sec_num in (1..14) %}
+      {% assign sec_items = site.lessons | where: "section", sec_num | sort: "order" %}
+      {% if sec_items.size == 0 %}{% continue %}{% endif %}
+      {% assign sec_index = sec_items | where: "order", 0 | first %}
+      {% assign sec_lessons = sec_items | where_exp: "item", "item.order > 0" %}
+
+      {% assign is_active_section = false %}
+      {% for item in sec_items %}
+        {% if item.url == page.url %}
+          {% assign is_active_section = true %}
+        {% endif %}
+      {% endfor %}
+
+      <div class="accordion-item border-0">
+        <h2 class="accordion-header">
+          <button class="sidebar-section-btn accordion-button {% unless is_active_section %}collapsed{% endunless %} px-3 py-2"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#sec-{{ sec_num }}"
+                  aria-expanded="{{ is_active_section }}">
+            <span class="badge badge-soft me-2" style="font-size:0.7rem;">{{ sec_num }}</span>
+            {% if sec_index %}{{ sec_index.section_title }}{% else %}Section {{ sec_num }}{% endif %}
+          </button>
+        </h2>
+        <div id="sec-{{ sec_num }}"
+             class="accordion-collapse collapse {% if is_active_section %}show{% endif %}"
+             data-bs-parent="#courseNav">
+          <div class="accordion-body p-0 pb-1">
+            {% if sec_index %}
+            <a href="{{ sec_index.url | relative_url }}"
+               class="sidebar-lesson-link {% if sec_index.url == page.url %}active{% endif %}">
+              <i class="lni lni-list sidebar-check {% if sec_index.url == page.url %}done{% endif %}"
+                 data-url="{{ sec_index.url }}"></i>
+              <span>Overview</span>
+            </a>
+            {% endif %}
+            {% for lesson in sec_lessons %}
+            <a href="{{ lesson.url | relative_url }}"
+               class="sidebar-lesson-link {% if lesson.url == page.url %}active{% endif %}">
+              <i class="lni lni-checkmark-circle sidebar-check"
+                 data-url="{{ lesson.url }}"></i>
+              <span>{{ lesson.title }}</span>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</nav>

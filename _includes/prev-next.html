@@ -1,0 +1,43 @@
+{% assign sorted_lessons = site.lessons | sort: "url" %}
+{% assign lesson_count = sorted_lessons | size %}
+{% assign prev_lesson = nil %}
+{% assign next_lesson = nil %}
+{% assign found = false %}
+
+{% for lesson in sorted_lessons %}
+  {% if found %}
+    {% assign next_lesson = lesson %}
+    {% assign found = false %}
+  {% endif %}
+  {% if lesson.url == page.url %}
+    {% assign found = true %}
+  {% endif %}
+{% endfor %}
+
+{% assign found = false %}
+{% for lesson in sorted_lessons %}
+  {% if lesson.url == page.url %}
+    {% assign found = true %}
+  {% endif %}
+  {% unless found %}
+    {% assign prev_lesson = lesson %}
+  {% endunless %}
+{% endfor %}
+
+<div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top flex-wrap gap-2">
+  {% if prev_lesson %}
+  <a href="{{ prev_lesson.url | relative_url }}" class="btn btn-outline-brand">
+    <i class="lni lni-arrow-left me-1"></i> {{ prev_lesson.title | truncate: 40 }}
+  </a>
+  {% else %}<div></div>{% endif %}
+
+  <button class="btn btn-brand" id="markComplete" data-lesson="{{ page.url }}">
+    <i class="lni lni-checkmark me-1"></i> Mark Complete
+  </button>
+
+  {% if next_lesson %}
+  <a href="{{ next_lesson.url | relative_url }}" class="btn btn-brand">
+    {{ next_lesson.title | truncate: 40 }} <i class="lni lni-arrow-right ms-1"></i>
+  </a>
+  {% else %}<div></div>{% endif %}
+</div>

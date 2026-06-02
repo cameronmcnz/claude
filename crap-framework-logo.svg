@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img">
+<title>CRAP — Clear. Relevant. Actionable. Practical.</title>
+<desc>Premium logo for the CRAP productivity framework. Neon gradient typography on a transparent background.</desc>
+<defs>
+  <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#7c3aed"/>
+    <stop offset="35%" stop-color="#a855f7"/>
+    <stop offset="68%" stop-color="#38bdf8"/>
+    <stop offset="100%" stop-color="#1fd3ff"/>
+  </linearGradient>
+  <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#7c3aed" stop-opacity="0"/>
+    <stop offset="22%" stop-color="#7c3aed"/>
+    <stop offset="78%" stop-color="#1fd3ff"/>
+    <stop offset="100%" stop-color="#1fd3ff" stop-opacity="0"/>
+  </linearGradient>
+  <radialGradient id="rp" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#5f37d6" stop-opacity="0.32"/>
+    <stop offset="100%" stop-color="#5f37d6" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="rc" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.26"/>
+    <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="fg" x="-60%" y="-80%" width="220%" height="260%">
+    <feGaussianBlur stdDeviation="55"/>
+  </filter>
+  <filter id="fn" x="-28%" y="-48%" width="156%" height="196%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b1"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="b2"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="38" result="b3"/>
+    <feMerge>
+      <feMergeNode in="b3"/>
+      <feMergeNode in="b2"/>
+      <feMergeNode in="b1"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+  <filter id="fs" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="4" result="b"/>
+    <feMerge>
+      <feMergeNode in="b"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+
+<!-- Ambient background orbs -->
+<ellipse cx="155" cy="275" rx="420" ry="345" fill="url(#rp)"/>
+<ellipse cx="1055" cy="335" rx="385" ry="315" fill="url(#rc)"/>
+<ellipse cx="600" cy="48" rx="310" ry="200" fill="url(#rp)" opacity="0.3"/>
+
+<!-- Top decoration -->
+<rect x="462" y="80" width="276" height="1" fill="url(#lg)" opacity="0.55"/>
+<circle cx="564" cy="91" r="2.2" fill="#7c3aed" filter="url(#fs)"/>
+<circle cx="582" cy="91" r="2.2" fill="#9333ea" filter="url(#fs)"/>
+<circle cx="600" cy="91" r="2.6" fill="#a855f7" filter="url(#fs)"/>
+<circle cx="618" cy="91" r="2.2" fill="#22d3ee" filter="url(#fs)"/>
+<circle cx="636" cy="91" r="2.2" fill="#1fd3ff" filter="url(#fs)"/>
+<rect x="462" y="101" width="276" height="1" fill="url(#lg)" opacity="0.35"/>
+
+<!-- Framework label -->
+<text x="600" y="130"
+  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif"
+  font-size="12" font-weight="700" text-anchor="middle"
+  fill="#22d3ee" letter-spacing="5.5">PRODUCTIVITY FRAMEWORK</text>
+
+<!-- Atmospheric violet haze behind CRAP -->
+<text x="600" y="362"
+  font-family="'Arial Black','Helvetica Neue',Impact,sans-serif"
+  font-size="222" font-weight="900" text-anchor="middle"
+  letter-spacing="18" fill="#6d28d9" opacity="0.52"
+  filter="url(#fg)">CRAP</text>
+
+<!-- Main CRAP text with neon gradient and glow -->
+<text x="600" y="362"
+  font-family="'Arial Black','Helvetica Neue',Impact,sans-serif"
+  font-size="222" font-weight="900" text-anchor="middle"
+  letter-spacing="18" fill="url(#tg)"
+  filter="url(#fn)">CRAP</text>
+
+<!-- Gradient divider -->
+<rect x="200" y="397" width="800" height="1.5" fill="url(#lg)"/>
+
+<!-- Subtitle -->
+<text x="600" y="438"
+  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif"
+  font-size="19" font-weight="300" text-anchor="middle"
+  fill="#94a3b8" letter-spacing="4.5">Clear · Relevant · Actionable · Practical</text>
+
+<!-- Pill badges -->
+<rect x="308" y="464" width="118" height="30" rx="15" fill="none" stroke="#7c3aed" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="367" y="484" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#a78bfa" letter-spacing="2">C · CLEAR</text>
+
+<rect x="446" y="464" width="132" height="30" rx="15" fill="none" stroke="#8b5cf6" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="512" y="484" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#c4b5fd" letter-spacing="2">R · RELEVANT</text>
+
+<rect x="598" y="464" width="154" height="30" rx="15" fill="none" stroke="#0891b2" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="675" y="484" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#67e8f9" letter-spacing="2">A · ACTIONABLE</text>
+
+<rect x="772" y="464" width="124" height="30" rx="15" fill="none" stroke="#22d3ee" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="834" y="484" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10.5" font-weight="700" text-anchor="middle" fill="#22d3ee" letter-spacing="2">P · PRACTICAL</text>
+
+<!-- Bottom accent -->
+<rect x="382" y="520" width="436" height="1" fill="url(#lg)" opacity="0.28"/>
+<text x="600" y="548" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="10" font-weight="500" text-anchor="middle" fill="#475569" letter-spacing="3">v 2.0 · AI PRODUCTIVITY SYSTEM</text>
+</svg>

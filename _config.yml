@@ -1,0 +1,48 @@
+title: Claude Chat & Cowork Masterclass
+description: A beginner-to-hero course covering Claude Chat and Cowork for non-developers.
+baseurl: "/claude-masterclass"
+url: "https://xennial-innovations.github.io"
+timezone: America/New_York
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+future: true
+sass:
+  sass_dir: assets/css
+  style: compressed
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - 00-claude-chat-cowork-masterclass-zero-to-hero.md
+  - section-01
+  - section-02
+  - section-03
+  - section-04
+  - section-05
+  - section-06
+  - section-07
+  - section-08
+  - section-09
+  - section-10
+  - section-11
+  - section-12
+  - section-13
+  - section-14
+collections:
+  lessons:
+    output: true
+    permalink: /lessons/:path/
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: default
+      noindex: true
+  - scope:
+      path: ""
+      type: "lessons"
+    values:
+      layout: lesson
+      noindex: true

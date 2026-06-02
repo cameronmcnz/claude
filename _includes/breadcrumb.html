@@ -1,0 +1,14 @@
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider-color:rgba(255,255,255,0.5);--bs-breadcrumb-item-active-color:#fff;">
+    <li class="breadcrumb-item">
+      <a href="{{ '/' | relative_url }}" class="text-white-75 text-decoration-none">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{{ '/lessons/' | append: page.section_slug | append: '/' | relative_url }}"
+         class="text-white-75 text-decoration-none">
+        {{ page.section_title }}
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page" style="color:#fff;">{{ page.title }}</li>
+  </ol>
+</nav>

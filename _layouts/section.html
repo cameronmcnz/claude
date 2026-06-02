@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<div class="hero-wrap hero-small py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ '/' | relative_url }}" class="text-white-75">Home</a></li>
+        <li class="breadcrumb-item active text-white" aria-current="page">Section {{ page.section }}</li>
+      </ol>
+    </nav>
+    <span class="badge badge-brand mb-2">Section {{ page.section }}</span>
+    <h1 class="h3 text-white mb-1">{{ page.section_title }}</h1>
+    <p class="text-white-75 mb-0">{{ page.description }}</p>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="lesson-shell mb-4">
+        <article class="lesson-content">
+          {{ content }}
+        </article>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card-soft p-3">
+        <h5 class="fw-700 mb-3" style="color:var(--brand-indigo);">Lessons in This Section</h5>
+        {% assign section_lessons = site.lessons | where: "section", page.section | sort: "order" %}
+        <div class="list-group list-group-flush">
+          {% for lesson in section_lessons %}
+            {% if lesson.order > 0 %}
+            <a href="{{ lesson.url | relative_url }}" class="list-group-item list-group-item-action border-0 px-0 py-2" style="font-size:0.9rem;">
+              <i class="lni lni-arrow-right me-2" style="color:var(--brand-violet);font-size:0.75rem;"></i>
+              {{ lesson.title }}
+            </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
