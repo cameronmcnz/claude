@@ -1,7 +1,7 @@
 title: Claude Chat & Cowork Masterclass
 description: A beginner-to-hero course covering Claude Chat and Cowork for non-developers.
-baseurl: "/claude-masterclass"
-url: "https://xennial-innovations.github.io"
+baseurl: "/claude"
+url: "https://cameronmcnz.github.io"
 timezone: America/New_York
 markdown: kramdown
 highlighter: rouge
