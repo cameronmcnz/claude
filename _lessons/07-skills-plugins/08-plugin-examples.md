@@ -24,7 +24,7 @@ These examples show Claude Plugins in action using a single fictional company â€
     <p>The company has just closed a $500k seed round on a convertible note and is moving from functional prototype into tooling and initial production. The examples below follow EverClean across finance, marketing, and sales â€” from recording the first journal entry to forecasting the first month of revenue.</p>
   </div>
   <div class="col-md-5">
-    <img src="{{ '/section-07/plugin-examples/everclean-dishwasher-ad.jpg' | relative_url }}" 
+    <img src="{{ site.baseurl }}/assets/images/everclean/everclean-dishwasher-ad.jpg" 
          alt="EverClean dishwasher product advertisement" 
          class="img-fluid rounded shadow-sm">
   </div>
@@ -32,12 +32,12 @@ These examples show Claude Plugins in action using a single fictional company â€
 
 <div class="row g-3 mb-5">
   <div class="col-md-4">
-    <img src="{{ '/section-07/plugin-examples/everclean-diswasher-dishgruntled.jpg' | relative_url }}" 
+    <img src="{{ site.baseurl }}/assets/images/everclean/everclean-diswasher-dishgruntled.jpg" 
          alt="The frustration of emptying the dishwasher â€” the problem EverClean solves" 
          class="img-fluid rounded shadow-sm">
   </div>
   <div class="col-md-4">
-    <img src="{{ '/section-07/plugin-examples/everclean-mother-son.jpg' | relative_url }}" 
+    <img src="{{ site.baseurl }}/assets/images/everclean/everclean-mother-son.jpg" 
          alt="EverClean lifestyle â€” the kitchen without the daily unloading ritual" 
          class="img-fluid rounded shadow-sm">
   </div>

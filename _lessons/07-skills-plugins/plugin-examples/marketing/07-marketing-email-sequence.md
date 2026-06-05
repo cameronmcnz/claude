@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: marketing
 function: email-sequence
-order: 7
+order: 0
 noindex: true
 ---
 

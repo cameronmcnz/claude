@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: sales
 function: draft-outreach
-order: 3
+order: 0
 noindex: true
 ---
 

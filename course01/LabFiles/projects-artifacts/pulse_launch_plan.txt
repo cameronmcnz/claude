@@ -1,0 +1,54 @@
+Pulse Product Launch Plan Overview
+
+Product: Pulse — an AI-powered analytics platform for marketing teams. Pulse
+unifies campaign data across major ad platforms, surfaces performance anomalies
+automatically, and recommends budget reallocations.
+
+Company: Meridian Analytics, a 320-employee B2B SaaS company. Annual recurring
+revenue (ARR) currently $42M. Pulse is Meridian's first AI-native product,
+representing a strategic expansion beyond the company's existing reporting
+tools.
+
+Launch Date: Tuesday, May 5 (90 days from kickoff). General availability
+worldwide.
+
+Target Customer Segment:
+- Mid-market B2B and B2C companies with $50M-$1B in revenue
+- Marketing teams of 8-30 people running paid campaigns across 4+ platforms
+- Existing Meridian reporting customers as primary expansion targets
+- Net-new prospects from competitive replacement deals
+
+Pricing:
+- Pulse Standard: $2,400/month (up to 5 connected platforms, 5 user seats)
+- Pulse Plus: $4,800/month (unlimited platforms, 15 user seats, predictive
+  features)
+- Pulse Enterprise: custom pricing, 20+ seats, dedicated CSM
+
+Key Milestones:
+- Day -90 (Kickoff): Cross-functional team launches; brand and messaging frozen
+- Day -60: Beta with 12 design partners; sales enablement complete
+- Day -45: Pricing operationalized in billing; legal review complete
+- Day -30: Internal sales training; marketing assets shipped to digital
+- Day -14: Final Go/No-Go decision; press embargo lifted at launch
+- Day 0: General availability; launch day press, partner content, and demos
+- Day +30: First post-launch review; customer cohort analysis
+
+Stakeholders:
+- Executive Sponsor: Chief Product Officer
+- Program Manager: leads weekly cross-functional sync; owns Go/No-Go prep
+- Product: Director of Product, Pulse PM, Pulse engineering lead
+- Marketing: VP Marketing, product marketing manager, demand gen lead
+- Sales: VP Sales, sales enablement lead, top 5 enterprise reps
+- Customer Success: VP CS, Pulse onboarding lead, support manager
+- Finance and Legal: VP Finance, General Counsel
+
+Success Metrics (90 days post-launch):
+- 200 paying customers across all tiers
+- $2.4M in net-new ARR
+- 30 named customer references (recorded testimonials)
+- Sales-qualified opportunities up 40% vs. prior quarter
+- Onboarding time-to-first-value under 14 days
+- NPS from launch cohort 40 or higher
+
+Budget: $1.8M total launch spend across product, marketing, sales enablement,
+and events.

@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: finance
 function: audit-support
-order: 6
+order: 0
 noindex: true
 ---
 

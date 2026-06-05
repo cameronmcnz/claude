@@ -1,0 +1,4560 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Guide: AI-CLD-1001 Working Smarter with Claude Chat</title>
+  <style>
+    @import url("https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css");
+
+:root {
+  --font-primary: system-ui, -apple-system, sans-serif;
+  --font-secondary: system-ui, -apple-system, sans-serif;
+
+  /* Brand accent — used for .objectives checkmark, etc. */
+  --accent: #ff6b00;
+
+  /* Decorative rule color — warm muted accent used for section
+     header underline, .notes / .details block borders. */
+  --rule-color: #ae9695;
+
+  --header-height: 64px;
+  --sidebar-width: 300px;
+  /* Fluid inline padding shared by the page hero and section headers. */
+  --header-padding-inline: clamp(var(--space-4), 5vw, var(--space-8));
+
+  /* Spacing scale — Tailwind-style 4px base. Numbers = step × 4px.
+     Use for all margin / padding / gap. Reserve em for spacing that
+     must scale with text (letter-spacing, etc.). */
+  --space-1:  0.25rem; /*   4px */
+  --space-2:  0.5rem;  /*   8px */
+  --space-3:  0.75rem; /*  12px */
+  --space-4:  1rem;    /*  16px */
+  --space-5:  1.5rem;  /*  24px */
+  --space-6:  2rem;    /*  32px */
+  --space-8:  3rem;    /*  48px */
+  --space-12: 5rem;    /*  80px */
+  --space-16: 8rem;    /* 128px */
+
+  --font-size-title-lg: 1.875rem;
+  --font-size-title-md: 1.375rem;
+  --font-size-title-sm: 1.1875rem;
+
+  /* Light Mode Variables */
+  --bg-main: #ffffff;
+  --bg-sidebar: white;
+  --header-color: black;
+  --text-main: #24292e;
+  --text-muted: #59636e;
+  --link-color: #0366d6;
+  --border-color: #e1e4e8;
+  --bg-color-light: #faf5ed;
+  --bg-color-muted: #f6ebdf;
+  --bg-color-intense: #5c1726;
+  --bg-color-prompt: #f0f0f0;
+  --bg-color-prompt-bubble: #ddedff;
+  --borderColor-default: #3c071266;
+  --borderColor-accent-emphasis: #0969da;
+  --fgColor-info: #0969da;
+  --borderColor-done-emphasis: #8250df;
+  --fgColor-done: #8250df;
+  --borderColor-attention-emphasis: #9a6700;
+  --fgColor-attention: #9a6700;
+  --borderColor-success-emphasis: #1a7f37;
+  --fgColor-success: #1a7f37;
+  --borderColor-danger-emphasis: #cf222e;
+  --fgColor-danger: #d1242f;
+  --table-row-color: #fff9f5;
+  --code-bg: #f8f8f8;
+  --code-color: #24292e;
+  --code-keyword: #d73a49;
+  --code-entity: #6f42c1;
+  --code-constant: #005cc5;
+  --code-string: #032f62;
+  --code-variable: #e36209;
+  --code-comment: #6a737d;
+  --code-entity-tag: #22863a;
+  --code-storage-modifier-import: #24292e;
+  --code-markup-heading: #005cc5;
+  --code-markup-list: #735c0f;
+  --code-markup-italic: #24292e;
+  --code-markup-bold: #24292e;
+  --code-markup-inserted: #22863a;
+  --code-markup-inserted-bg: #f0fff4;
+  --code-markup-deleted: #b31d28;
+  --code-markup-deleted-bg: #ffeef0;
+
+  --theme-logo: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20id%3D%22Layer_2%22%20version%3D%221.1%22%20viewBox%3D%220%200%203540.6%20826.8%22%3E%3Cdefs%3E%3Cstyle%3E.st0%7Bfill%3A%23fff%7D%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22Layer_1-2%22%3E%3Cpath%20d%3D%22M529.9%20468.3v126.2H492v-19.1c-12.5%2014.7-31.3%2022.8-54.5%2022.8-39%200-70.3-25.8-70.3-60.3s30.5-55.6%2077.3-55.6h44.9v-16.9c0-24.7-7.7-34.2-37.2-34.2s-38.3%209.2-39.4%2035.3h-40.5c5.1-37.5%2037.5-68.8%2081.7-68.8s75.8%2028.7%2075.8%2070.7Zm-40.5%2065.1v-20.2h-54.1c-17.3%200-25.4%206.6-25.4%2019.5V543c0%2015.5%2010.3%2022.5%2036.1%2022.5s43.4-9.6%2043.4-32ZM550.1%20535.6h42c1.5%2022.8%2011.4%2029.4%2042.3%2029.4s40.1-7%2040.1-21.7v-7.4c0-11.8-7.4-16.6-27.6-18.8l-32-2.9c-35.3-3.3-58.1-23.5-58.1-54.1s35-62.6%2075.8-62.6%2075.1%2023.9%2080.2%2061.8h-42.3c-.7-21.7-9.9-28.7-37.5-28.7s-35.7%206.2-35.7%2021v6.6c0%2011.4%207%2016.9%2024.7%2018.8l35.7%203.7c35.7%203.7%2057.8%2023.5%2057.8%2053.4s-35%2064-80.2%2064-80.6-25.4-85-62.6ZM730.8%20497.7c0-56.7%2039.4-100.1%2091.6-100.1s81%2032.4%2088.3%2078h-43.8c-2.2-31.3-14.3-42.3-45.3-42.3S776%20448%20776%20482.2v30.9c0%2034.6%2013.6%2049.7%2045.6%2049.7s43.1-11.8%2045.3-43.1h43.8c-7.4%2046-44.2%2078.4-88.3%2078.4s-91.6-43.4-91.6-100.5ZM973.6%20509.5v9.2c0%2032%2014.7%2045.3%2048.9%2045.3s42.3-8.8%2044.5-30.5h44.5c-11.8%2036.8-48.9%2064.8-88.7%2064.8S929%20558.5%20929%20500.8s39.8-103%2094.2-103%2089.1%2042.7%2089.1%2096.4v15.5H973.6Zm0-35.3v4.4h93.8v-4.4c0-30.5-12.1-43.1-44.2-43.1s-49.7%2012.9-49.7%2043.1ZM1310.3%20473.8v120.7h-41.6V471.6c0-26.1-12.9-37.9-42.3-37.9s-44.2%2012.1-44.2%2039.8v121.1h-41.6V401.4h38.6v28c14.7-20.2%2036.8-31.6%2062.2-31.6%2039.4%200%2068.8%2032%2068.8%2076.2ZM1515.3%20330.3v264.2h-39v-26.1c-13.2%2017.7-37.2%2029.8-59.6%2029.8-48.2%200-87.2-44.9-87.2-99.7s39.4-100.8%2088.7-100.8%2041.6%209.2%2055.6%2026.1v-93.5h41.6Zm-41.6%20152c0-34.2-15.1-48.9-49.7-48.9s-49.3%2014.7-49.3%2048.9v30.9c0%2034.6%2015.1%2049.7%2049.3%2049.7s49.7-15.1%2049.7-49.7v-30.9ZM1533.7%20351.2c0-16.9%2012.1-28.3%2029.1-28.3s28.7%2011.4%2028.7%2028.3-12.1%2028.3-28.7%2028.3-29.1-11.8-29.1-28.3Zm8.5%2050.1h41.6v193.2h-41.6V401.3ZM1651.8%20509.5v9.2c0%2032%2014.7%2045.3%2048.9%2045.3s42.3-8.8%2044.5-30.5h44.5c-11.8%2036.8-48.9%2064.8-88.7%2064.8s-93.8-39.8-93.8-97.5%2039.8-103%2094.2-103%2089.1%2042.7%2089.1%2096.4v15.5h-138.7Zm0-35.3v4.4h93.8v-4.4c0-30.5-12.1-43.1-44.2-43.1s-49.7%2012.9-49.7%2043.1ZM1981.5%20473.8v120.7h-41.6V471.6c0-26.1-12.9-37.9-42.3-37.9s-44.2%2012.1-44.2%2039.8v121.1h-41.6V401.4h38.6v28c14.7-20.2%2036.8-31.6%2062.2-31.6%2039.4%200%2068.8%2032%2068.8%2076.2ZM2028.3%20537.8V435.9h-40.1v-34.6h40.1v-71h41.2v71h52.3v34.6h-52.3v104.2c0%2012.5%206.6%2018.8%2019.1%2018.8h29.4v37.5h-27.2c-38.3%200-62.6-22.8-62.6-58.5ZM241.5%2089.1l74.4%2052.3L212.7%208.8c-1.1-1.5-2.9-2.2-4.6-2.2s-2.7.5-3.8%201.4l-17%2014.6c-2.5%202.1-2.7%206-.5%208.4l54.7%2058.1ZM124.8%2082.3l103.5%2059.1%2050.5%2016.5%2019.9%206.5%2019.9%206.5%208.5%202.8-17.5-12.2-40.6-28.6-40.6-28.6-81.3-57.1c-1.2-.8-2.6-1.2-4-1.2-2.4%200-4.7%201.2-6.1%203.3l-14.6%2023c-2.1%203.4-1.1%207.9%202.4%2010ZM70.7%20164.3l163%2036.8%2060.7%201.1%2020.9.4h5.7l15.2.4h2l11.9.3h3.3l-2.8-.9-8.5-2.8-11.2-3.6-3.8-1.2-12.8-4.2-7.1-2.3-40.2-13.1-47.2-15.4-135.9-44.4c-.9-.3-1.7-.4-2.6-.4-3.8%200-7.3%202.5-8.4%206.4l-8.8%2032.1c-1.3%204.7%201.6%209.6%206.4%2010.8ZM36.3%20279.1h.6l225-16.8%2067.2-19.2%2020.1-5.7%2020.1-5.7%206.1-1.7%2011.2-3.2%209-2.6h-8.3c0-.1-10.3-.3-10.3-.3l-16-.3-30.3-.6h-.1l-49.6-1-49.6-1-196.1-3.7c-6%200-10.8%204.9-10.6%2010.9l1.1%2040.6c.2%205.8%204.9%2010.3%2010.6%2010.3ZM38.4%20425.2l276.7-107.8%2068.1-44.1%2017.5-11.3%2024.8-16.1%209.8-6.4%2016.3-10.5-16.4%204.7-9.9%202.8-9.9%202.8-23.7%206.7-21.8%206.2-9%202.6-47.7%2013.6-47.7%2013.6-251.1%2071.7c-7%202.1-10.9%209.6-8.6%2016.5l15.8%2046.9c1.8%205.4%206.9%208.8%2012.3%208.8s3-.3%204.5-.8ZM483%20232.6l-8.7%205.6-8.6%205.6-29.6%2019.1-11.2%207.2-17.3%2011.2-41.7%2027-41.7%2027L38.8%20520.2c-7.4%205-9.2%2015.1-4%2022.3l35.1%2049.1c3.1%204.3%207.9%206.6%2012.8%206.6s6.7-1%209.6-3.2l443.4-350-22.7-31.8-30%2019.4ZM1515.3%20649.2h16.7v136.4h-16.7V649.2ZM1561.3%20740.9v4.4c0%2019.4%208.6%2027.4%2028.7%2027.4s23.4-5.3%2024.9-17.7h19.4c-6.7%2018.8-25.7%2032.5-44.3%2032.5-27.2%200-47.3-20.5-47.3-49.6s20.3-53.6%2047.3-53.6%2044.7%2021.7%2044.7%2049.6v7h-73.3Zm0-16.1v2.1h54.7v-2.5c0-17.9-7-25.3-25.8-25.3s-28.9%207.8-28.9%2025.7ZM1724.9%20720.8v64.8h-15.8v-11.2c-6.1%208.4-16.5%2013.1-29.4%2013.1-19.9%200-35.7-13.7-35.7-30.8s15.2-27.9%2036.7-27.9h27.6v-8.9c0-15-4.9-20.7-21.5-20.7s-22.4%205.5-23.2%2020.7h-17.1c3.2-20.5%2019.8-35.5%2040.8-35.5s37.6%2014.6%2037.6%2036.5Zm-16.7%2034.4v-12.3h-32.3c-9.3%200-13.9%203.8-13.9%2011.2v5.3c0%209.3%206.3%2013.3%2021.1%2013.3s25.1-5.3%2025.1-17.5ZM1791.2%20684.3v21.1h-15.4c-13.5%200-19.6%206.1-19.6%2019.6v60.6h-16.7v-99.4h15.8v18.6c7.8-11.4%2020.5-18.6%2035.9-20.5ZM1885.4%20723.5v62.1h-16.7v-64c0-15.8-7.4-22.4-24.3-22.4s-25.7%207-25.7%2023.4v63.1H1802v-99.4h15.8v14.8c7.6-10.6%2018.8-16.7%2031.7-16.7%2020.7%200%2035.9%2016.2%2035.9%2039.1ZM1897.2%20660.9c0-7.6%205.5-12.9%2012.9-12.9s12.7%205.3%2012.7%2012.9-5.5%2012.9-12.7%2012.9-12.9-5.5-12.9-12.9Zm4.5%2025.3h16.7v99.4h-16.7v-99.4ZM2019.7%20723.5v62.1H2003v-64c0-15.8-7.4-22.4-24.3-22.4s-25.7%207-25.7%2023.4v63.1h-16.7v-99.4h15.8v14.8c7.6-10.6%2018.8-16.7%2031.7-16.7%2020.7%200%2035.9%2016.2%2035.9%2039.1ZM2121.7%20686.2v102.2c0%2020.9-17.7%2038.4-43.7%2038.4s-44.1-17.7-44.5-37.4h17.1c.2%2016.9%207%2022.6%2027.4%2022.6s27-6.8%2027-25.5v-19.2c-8.6%209.5-19.2%2014.4-30.8%2014.4-24.9%200-43.9-21.1-43.9-49s18.8-48.3%2044.1-48.3%2024.9%206.5%2031.5%2015.8v-14.1h15.8Zm-16.7%2052.5v-11.8c0-19.4-8.4-27.5-27.9-27.5s-28.3%208.2-28.3%2027.5v11.8c0%2020%208.6%2028.5%2028.3%2028.5s27.9-8.5%2027.9-28.5Z%22%20class%3D%22st0%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M2493.5%20398.1h45.6c7.9%200%2015.1.9%2021.6%202.7%206.5%201.8%2012%204.5%2016.6%208.1%204.6%203.6%208.1%208.2%2010.6%2013.6%202.5%205.5%203.8%2011.9%203.8%2019.3v.8c0%207.5-1.3%2014-3.9%2019.4s-6.1%209.9-10.7%2013.4-10.1%206.1-16.5%207.8c-6.4%201.7-13.4%202.6-20.9%202.6h-19.8V540h-26.4V398.1Zm45.6%2068.8c8.7%200%2015.4-2.1%2019.9-6.1%204.6-4.1%206.9-10.1%206.9-18v-.8c0-8.5-2.4-14.5-7-18-4.7-3.6-11.3-5.4-19.7-5.4H2520V467h19.2ZM2638.3%20541.9c-4.8%200-9.3-.6-13.5-1.8-4.2-1.2-7.9-3-11-5.5-3.1-2.4-5.6-5.6-7.4-9.5-1.9-3.9-2.8-8.6-2.8-14s1.4-11.2%204.2-15.4c2.8-4.2%206.6-7.5%2011.3-10.1%204.8-2.6%2010.4-4.5%2016.9-5.7%206.5-1.2%2013.4-1.8%2020.8-1.8h12.9v-5.4c0-7.1-1.4-12.3-4.1-15.8-2.7-3.5-7.6-5.2-14.8-5.2s-11.1%201.4-14.2%204.3c-3.1%202.9-5%206.9-5.7%2012.1h-23.2c.5-6.1%202.1-11.3%204.6-15.6%202.5-4.3%205.8-7.8%209.7-10.6%204-2.8%208.5-4.8%2013.7-6.1s10.6-2%2016.5-2%2011.2.6%2016.3%201.9c5%201.3%209.4%203.4%2013.2%206.4%203.8%203%206.7%206.9%208.8%2011.7%202.1%204.8%203.2%2010.8%203.2%2018v68.1h-23.6v-12.7c-3.4%204.5-7.6%208.1-12.5%2010.7s-11.3%204-19.2%204Zm5.8-17.3c7.4%200%2013.5-1.8%2018.4-5.5s7.2-8.8%207.2-15.6v-10.3h-12.3c-9.1%200-16.4%201.2-21.8%203.7-5.4%202.5-8.1%206.9-8.1%2013.2s1.3%207.9%203.9%2010.5c2.6%202.7%206.9%204%2012.8%204ZM2722.1%20436.1h24v19.5c3.3-6.6%207.6-11.7%2012.8-15.4%205.2-3.6%2012.2-5.5%2020.9-5.7v22.4c-5.3%200-10%20.5-14.2%201.5-4.2%201-7.7%202.6-10.6%204.9-2.9%202.2-5.1%205.2-6.6%208.8-1.5%203.6-2.3%208.2-2.3%2013.8v54h-24V436.1ZM2837.9%20541.7c-10.3%200-18.1-2.7-23.4-8-5.3-5.3-7.9-12.9-7.9-22.9v-56.9h-13.9V436h13.9v-22.8h24V436h22.8v17.9h-22.8v54.5c0%204.6%201%208%203.1%2010.1%202.1%202.1%205%203.2%208.8%203.2s8.5-.7%2011.7-2v19.2c-1.9.7-4.1%201.3-6.8%201.8-2.6.5-5.8.8-9.5.8ZM2970.8%20541.9c-7.7%200-14.8-1.2-21.2-3.8-6.5-2.5-12.1-6.1-16.9-10.7-4.8-4.6-8.5-10.2-11.1-16.7-2.6-6.5-4-13.7-4-21.6v-1.6c0-8.1%201.4-15.4%204.1-21.9%202.7-6.5%206.4-12.2%2011.2-16.9%204.8-4.7%2010.4-8.3%2016.9-10.9%206.5-2.6%2013.6-3.9%2021.2-3.9s14.6%201.2%2021%203.8c6.5%202.5%2012.1%206.1%2016.9%2010.8%204.8%204.7%208.5%2010.3%2011.2%2016.8%202.7%206.5%204.1%2013.7%204.1%2021.6v1.6c0%208.1-1.4%2015.4-4.1%2021.9-2.7%206.5-6.4%2012.2-11.2%2016.9-4.8%204.7-10.4%208.3-16.9%2010.8-6.5%202.5-13.6%203.8-21.2%203.8Zm.2-18.9c9%200%2016-3.1%2021-9.2s7.5-14.5%207.5-25.2v-1.4c0-10.7-2.5-19.1-7.5-25.2-5-6.1-12-9.2-21-9.2s-16%203-21.1%209.1c-5.1%206.1-7.6%2014.5-7.6%2025.1v1.6c0%2010.7%202.5%2019.1%207.5%2025.2%205%206.1%2012.1%209.2%2021.2%209.2ZM3050.8%20454h-14.1v-17.9h14.1v-13.9c0-11.5%203-20.2%209-26.2s14.6-8.9%2025.9-8.9%205.4.2%207.3.5c2%20.3%204.1.8%206.4%201.5v18.6c-1.5-.5-3.1-1-4.9-1.3-1.8-.3-3.8-.5-6.1-.5-4.9%200-8.4%201.4-10.5%204.3-2.1%202.9-3.2%206.5-3.2%2011v14.9h23.6V454h-23.6v85.9h-24V454ZM2531.7%20614.8h52.6l45%20141.8h-43.1l-7.5-26.4h-47l-7.5%2026.4h-37.9l45.4-141.8Zm7.9%2087.5h31.1l-15.5-54.6-15.7%2054.6ZM2689%20759.1c-7.8%200-15-1.1-21.6-3.4-6.6-2.2-12.4-5.6-17.3-10.1-4.9-4.4-8.7-9.8-11.5-16.5-2.8-6.6-4.2-14.3-4.2-23v-1.6c0-8.6%201.4-16.3%204.4-23%202.9-6.7%206.9-12.4%2011.9-17.1%205-4.6%2010.9-8.2%2017.6-10.6%206.7-2.4%2013.9-3.7%2021.5-3.7s12.5.7%2018.4%202.2c5.9%201.5%2011.1%203.8%2015.8%207.1%204.6%203.4%208.4%207.9%2011.4%2013.3s4.7%2012.1%205.3%2020h-33.3c-.8-4.9-2.5-8.6-5.1-11.2-2.6-2.6-6.4-3.9-11.6-3.9s-11.2%202.2-14.7%206.7c-3.4%204.4-5.2%2011-5.2%2019.7v1.6c0%209.1%201.7%2016%205.2%2020.5%203.4%204.6%208.5%206.8%2015.3%206.8s9.1-1.5%2012.3-4.4c3.2-2.9%205.1-7.2%205.8-12.9h31.9c-.5%2013.1-5.2%2023.6-13.9%2031.5s-21.5%2011.8-38.3%2011.8ZM2806.3%20759.1c-7.8%200-15-1.1-21.6-3.4-6.6-2.2-12.4-5.6-17.3-10.1-4.9-4.4-8.7-9.8-11.5-16.5-2.8-6.6-4.2-14.3-4.2-23v-1.6c0-8.6%201.4-16.3%204.4-23%202.9-6.7%206.9-12.4%2011.9-17.1%205-4.6%2010.9-8.2%2017.6-10.6%206.7-2.4%2013.9-3.7%2021.5-3.7s12.5.7%2018.4%202.2c5.9%201.5%2011.1%203.8%2015.8%207.1%204.6%203.4%208.4%207.9%2011.4%2013.3s4.7%2012.1%205.3%2020h-33.3c-.8-4.9-2.5-8.6-5.1-11.2-2.6-2.6-6.4-3.9-11.6-3.9s-11.2%202.2-14.7%206.7c-3.4%204.4-5.2%2011-5.2%2019.7v1.6c0%209.1%201.7%2016%205.2%2020.5%203.4%204.6%208.5%206.8%2015.3%206.8s9.1-1.5%2012.3-4.4c3.2-2.9%205.1-7.2%205.8-12.9h31.9c-.5%2013.1-5.2%2023.6-13.9%2031.5s-21.5%2011.8-38.3%2011.8ZM2925.3%20759.1c-8.2%200-15.7-1.2-22.6-3.5-6.9-2.3-12.8-5.7-17.7-10.2-5-4.5-9-10-11.8-16.7-2.9-6.6-4.3-14.2-4.3-22.6v-1.6c0-8.3%201.4-15.8%204.4-22.5%202.9-6.7%206.9-12.4%2011.9-17.2%205-4.8%2011-8.4%2017.9-10.9%206.9-2.5%2014.2-3.8%2022-3.8s13.9%201.1%2020.2%203.2c6.4%202.1%2012%205.4%2016.9%209.7%204.8%204.4%208.6%209.9%2011.4%2016.7%202.8%206.8%204.3%2014.8%204.3%2024v9.3h-73c.5%206.9%202.7%2012.2%206.4%2016%203.8%203.8%208.8%205.7%2015.2%205.7s10.3-1.2%2013-3.6%204.4-5.3%205.1-8.7h33.3c-1.6%2011.8-6.8%2020.8-15.7%2027.2-8.9%206.3-21.2%209.5-36.9%209.5Zm18.1-66.1c-.3-6.3-1.9-11.2-5-14.5-3-3.3-7.5-5-13.3-5s-9.9%201.7-13.3%205c-3.4%203.3-5.6%208.1-6.6%2014.5h38.1ZM2994.7%20652.9h35.5v16.8c2.8-5.5%207-10.1%2012.6-13.9%205.6-3.8%2012.8-5.7%2021.5-5.7s18.2%203.2%2024.5%209.6c6.3%206.4%209.4%2016.2%209.4%2029.5v67.5h-35.5v-60.2c0-5.9-1.2-10.3-3.6-13.2-2.4-2.8-6.1-4.2-11.3-4.2s-9.6%201.6-12.8%204.8-4.9%208.1-4.9%2014.8v58h-35.5V652.9ZM3161.4%20759.1c-11.8%200-20.8-2.9-27.1-8.6-6.3-5.8-9.4-14.8-9.4-27.1v-46.2h-12.5V653h12.5v-21.6h35.5V653h20.4v24.2h-20.4V720c0%203.6.9%206.3%202.7%208.1s4.4%202.8%207.8%202.8%203.8-.1%205.4-.4c1.6-.3%203.2-.7%204.8-1.4v27c-2.2.7-5%201.3-8.3%202-3.3.7-7.1%201-11.3%201ZM3233%20759.1c-5%200-9.6-.8-13.9-2.3-4.2-1.5-7.9-3.9-10.9-7-3.2-3.2-5.7-7.2-7.4-12-1.8-4.8-2.7-10.5-2.7-17.2v-67.7h35.5v61.9c0%205.8%201.2%2010.2%203.7%2013.1%202.4%202.9%206.1%204.4%2011%204.4s9.7-1.6%2012.9-4.8c3.2-3.2%204.8-8.1%204.8-14.9v-59.7h35.5v103.8H3266v-16.1c-2.8%205.4-6.8%209.8-12%2013.3-5.2%203.4-12.2%205.2-20.9%205.2ZM3324.1%20652.9h35.5v20.6c3.3-7.8%207.7-13.5%2013.2-17%205.5-3.5%2012.3-5.2%2020.3-5.1v33.1c-10.8-.3-19.1%201.4-24.9%205-5.8%203.6-8.6%209.5-8.6%2017.8v49.2h-35.5V652.7ZM3460.4%20759.1c-8.2%200-15.7-1.2-22.6-3.5-6.9-2.3-12.8-5.7-17.7-10.2-5-4.5-9-10-11.8-16.7-2.9-6.6-4.3-14.2-4.3-22.6v-1.6c0-8.3%201.4-15.8%204.4-22.5%202.9-6.7%206.9-12.4%2011.9-17.2%205-4.8%2011-8.4%2017.9-10.9%206.9-2.5%2014.2-3.8%2022-3.8s13.9%201.1%2020.2%203.2c6.4%202.1%2012%205.4%2016.9%209.7%204.8%204.4%208.6%209.9%2011.4%2016.7%202.8%206.8%204.3%2014.8%204.3%2024v9.3h-73c.5%206.9%202.7%2012.2%206.4%2016%203.8%203.8%208.8%205.7%2015.2%205.7s10.3-1.2%2013-3.6%204.4-5.3%205.1-8.7h33.3c-1.6%2011.8-6.8%2020.8-15.7%2027.2-8.9%206.3-21.2%209.5-36.9%209.5Zm18-66.1c-.3-6.3-1.9-11.2-5-14.5-3-3.3-7.5-5-13.3-5s-9.9%201.7-13.3%205c-3.4%203.3-5.6%208.1-6.6%2014.5h38.1Z%22%20class%3D%22st0%22%2F%3E%3C%2Fsvg%3E");
+}
+
+[data-theme="dark"] {
+  /* Dark Mode Variables */
+  --bg-main: #0d1117;
+  --bg-sidebar: #0d1117;
+  --header-color: white;
+  --text-main: #c9d1d9;
+  --text-muted: #59636e;
+  --link-color: #58a6ff;
+  --border-color: #30363d;
+  --bg-color-light: #1f2937;
+  --bg-color-muted: #010409;
+  --bg-color-intense: black;
+  --borderColor-default: #3d444d;
+  --borderColor-accent-emphasis: #1f6feb;
+  --fgColor-info: #4493f8;
+  --borderColor-done-emphasis: #8250df;
+  --fgColor-done: #ab7df8;
+  --borderColor-attention-emphasis: #9e6a03;
+  --fgColor-attention: #d29922;
+  --borderColor-success-emphasis: #238636;
+  --fgColor-success: #3fb950;
+  --borderColor-danger-emphasis: #da3633;
+  --fgColor-danger: #f85149;
+  --table-row-color: #010409;
+  --code-bg: #282a36;
+  --code-color: #c9d1d9;
+  --code-keyword: #ff7b72;
+  --code-entity: #d2a8ff;
+  --code-constant: #79c0ff;
+  --code-string: #a5d6ff;
+  --code-variable: #ffa657;
+  --code-comment: #8b949e;
+  --code-entity-tag: #7ee787;
+  --code-storage-modifier-import: #c9d1d9;
+  --code-markup-heading: #1f6feb;
+  --code-markup-list: #f2cc60;
+  --code-markup-italic: #c9d1d9;
+  --code-markup-bold: #c9d1d9;
+  --code-markup-inserted: #aff5b4;
+  --code-markup-inserted-bg: #033a16;
+  --code-markup-deleted: #ffdcd7;
+  --code-markup-deleted-bg: #67060c;
+
+  /* Brand-stable in both modes — explicit for token-coverage discipline. */
+  --accent: #ff6b00;
+  /* Decorative warm-grey accent — slightly lighter on dark for contrast. */
+  --rule-color: #d4b8b6;
+}
+
+/* ---------- [ Diagram Color Tokens ] ---------- */
+
+:root {
+  /* Raw color stops — values never change between light/dark */
+  --c-purple-50: #F5F3FF; --c-purple-100: #EDE9FE; --c-purple-200: #DDD6FE; --c-purple-400: #A78BFA; --c-purple-600: #7C3AED; --c-purple-800: #5B21B6; --c-purple-900: #4C1D95;
+  --c-teal-50: #F0FDFA;   --c-teal-100: #CCFBF1;   --c-teal-200: #99F6E4;   --c-teal-400: #2DD4BF;   --c-teal-600: #0D9488;   --c-teal-800: #115E59;   --c-teal-900: #134E4A;
+  --c-coral-50: #FFF7ED;   --c-coral-100: #FFEDD5;   --c-coral-200: #FED7AA;   --c-coral-400: #FB923C;   --c-coral-600: #EA580C;   --c-coral-800: #9A3412;   --c-coral-900: #7C2D12;
+  --c-pink-50: #FDF2F8;    --c-pink-100: #FCE7F3;    --c-pink-200: #FBCFE8;    --c-pink-400: #F472B6;    --c-pink-600: #DB2777;    --c-pink-800: #9D174D;    --c-pink-900: #831843;
+  --c-gray-50: #FAFAF9;    --c-gray-100: #F5F5F4;    --c-gray-200: #E7E5E4;    --c-gray-400: #A8A29E;    --c-gray-600: #57534E;    --c-gray-800: #292524;    --c-gray-900: #1C1917;
+  --c-blue-50: #EFF6FF;    --c-blue-100: #DBEAFE;    --c-blue-200: #BFDBFE;    --c-blue-400: #60A5FA;    --c-blue-600: #2563EB;    --c-blue-800: #1E40AF;    --c-blue-900: #1E3A8A;
+  --c-green-50: #F7FEE7;   --c-green-100: #ECFCCB;   --c-green-200: #D9F99D;   --c-green-400: #A3E635;   --c-green-600: #65A30D;   --c-green-800: #3F6212;   --c-green-900: #365314;
+  --c-amber-50: #FFFBEB;   --c-amber-100: #FEF3C7;   --c-amber-200: #FDE68A;   --c-amber-400: #FBBF24;   --c-amber-600: #D97706;   --c-amber-800: #92400E;   --c-amber-900: #78350F;
+  --c-red-50: #FEF2F2;     --c-red-100: #FEE2E2;     --c-red-200: #FECACA;     --c-red-400: #F87171;     --c-red-600: #DC2626;     --c-red-800: #991B1B;     --c-red-900: #7F1D1D;
+}
+
+/* Dark mode — remap which stops the color classes use */
+[data-theme="dark"] [class^="c-"] > rect,
+[data-theme="dark"] [class^="c-"] > circle,
+[data-theme="dark"] [class^="c-"] > ellipse,
+[data-theme="dark"] [class^="c-"] > polygon { fill: var(--_800); stroke: var(--_200); }
+[data-theme="dark"] [class^="c-"] > .d-th,
+[data-theme="dark"] [class^="c-"] > .d-t     { fill: var(--_100); }
+[data-theme="dark"] [class^="c-"] > .d-ts    { fill: var(--_200); }
+
+a {
+  text-decoration: none;
+}
+
+h2, h3, h4 {
+  line-height: 105%;
+}
+
+.sect2 {
+  margin-top: var(--space-8);
+}
+
+.sect2 h3 {
+  line-height: 105%;
+  margin-bottom: var(--space-4);
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+/* Size roles — matches asciidoctor's `<div class="paragraph lead">`
+   wrapper and inline `<span class="small">` form. */
+.lead {
+  font-size: 1.266em;
+}
+
+.big {
+  font-size: 1.125em;
+}
+
+.small {
+  font-size: 0.889em;
+}
+
+pre {
+  font-size: 12px;
+}
+
+table.tableblock {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-radius: var(--radius-small, 8px);
+  box-shadow: 0 0 0 1px var(--borderColor-default);
+  font-variant: tabular-nums;
+  max-width: 100%;
+  overflow: hidden;
+  width: fit-content;
+}
+
+table.tableblock > thead > tr:first-child > th,
+table.tableblock > thead > tr:first-child > td,
+table.tableblock > tbody:first-child > tr:first-child > th,
+table.tableblock > tbody:first-child > tr:first-child > td {
+  border-top: 0;
+}
+table.tableblock > tbody:last-child > tr:last-child > th,
+table.tableblock > tbody:last-child > tr:last-child > td,
+table.tableblock > tfoot:last-child > tr:last-child > th,
+table.tableblock > tfoot:last-child > tr:last-child > td {
+  border-bottom: 0;
+}
+table.tableblock th:first-child,
+table.tableblock td:first-child {
+  border-left: 0;
+}
+table.tableblock th:last-child,
+table.tableblock td:last-child {
+  border-right: 0;
+}
+
+table.tableblock > thead > tr:first-child > th:first-child,
+table.tableblock > tbody:first-child > tr:first-child > td:first-child {
+  border-top-left-radius: var(--radius-small, 8px);
+}
+table.tableblock > thead > tr:first-child > th:last-child,
+table.tableblock > tbody:first-child > tr:first-child > td:last-child {
+  border-top-right-radius: var(--radius-small, 8px);
+}
+table.tableblock > tbody:last-child > tr:last-child > th:first-child,
+table.tableblock > tbody:last-child > tr:last-child > td:first-child {
+  border-bottom-left-radius: var(--radius-small, 8px);
+}
+table.tableblock > tbody:last-child > tr:last-child > th:last-child,
+table.tableblock > tbody:last-child > tr:last-child > td:last-child {
+  border-bottom-right-radius: var(--radius-small, 8px);
+}
+
+table.tableblock th {
+  font-weight: 600;
+  background-color: var(--bg-color-muted);
+}
+
+table th.halign-left,
+table td.halign-left {
+  text-align: left;
+}
+
+table th.halign-right,
+table td.halign-right {
+  text-align: right;
+}
+
+table th.halign-center,
+table td.halign-center {
+  text-align: center;
+}
+
+table th.valign-top,
+table td.valign-top {
+  vertical-align: top;
+}
+
+table th.valign-bottom,
+table td.valign-bottom {
+  vertical-align: bottom;
+}
+
+table th.valign-middle,
+table td.valign-middle {
+  vertical-align: middle;
+}
+
+table.tableblock th,
+table.tableblock td {
+  padding: 6px 13px;
+  border: 1px solid var(--borderColor-default);
+  overflow-wrap: anywhere;
+}
+
+table.tableblock td {
+  vertical-align: top;
+}
+
+table.tableblock td > :last-child {
+  margin-bottom: 0;
+}
+
+table.tableblock tr {
+  background-color: var(--bg-main);
+  border-top: 1px solid var(--border-color-muted);
+}
+
+table.tableblock tr:nth-child(2n) {
+  background-color: var(--table-row-color);
+}
+
+table.tableblock img {
+  background-color: transparent;
+}
+
+table.tableblock p {
+  margin: 0;
+}
+
+.exampleblock.grid > .content {
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.exampleblock.col > .content {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: unset;
+}
+
+.exampleblock.grid > .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1em;
+}
+
+.exampleblock.grid.one-one > .content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
+.exampleblock.grid.two-one > .content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1em;
+}
+
+.exampleblock.grid.one-two > .content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1em;
+}
+
+.exampleblock.grid.valign-center {
+  height: 95%;
+}
+
+.exampleblock.grid.valign-center > .content {
+  align-items: center;
+  height: 95%;
+}
+
+.exampleblock.col.valign-center {
+  height: 95%;
+  display: flex;
+  align-items: center;
+}
+
+.exampleblock.grid.quadchart > .content {
+  grid-template: 1fr 1fr / 1fr 1fr;
+  gap: 0;
+}
+
+.exampleblock.grid.quadchart > .content > .exampleblock.col > .content {
+  padding: var(--space-4);
+}
+
+.exampleblock.grid.quadchart > .content > .exampleblock.col:nth-child(2),
+.exampleblock.grid.quadchart > .content > .exampleblock.col:nth-child(3) {
+  background: var(--table-row-color);
+}
+
+.mermaid-container {
+  break-inside: avoid;
+  page-break-inside: avoid; /* older browsers */
+  -webkit-column-break-inside: avoid; /* Safari */
+}
+
+.agenda {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: var(--space-4);
+  grid-row-gap: var(--space-4);
+  counter-reset: section;
+}
+
+.agenda h3 {
+  grid-column: span 2;
+}
+
+.agenda .paragraph {
+  counter-increment: section;
+  background: var(--bg-color-light);
+  border-radius: var(--radius-small, 8px);
+  font-size: 0.9375rem;
+  padding: var(--space-3);
+  position: relative;
+}
+
+.agenda .paragraph .title {
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.agenda .paragraph p {
+  margin-top: 0;
+}
+
+.agenda .paragraph::before {
+  content: counter(section);
+  font-weight: bold;
+  background: var(--accent);
+  border-radius: var(--radius-small, 8px);
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  text-align: center;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  margin-top: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+/* Stack fixed-ratio grids once the content column is too narrow for
+   readable columns. Container query, not viewport — see .doc-content. */
+@container (max-width: 32rem) {
+  .exampleblock.grid.one-one > .content,
+  .exampleblock.grid.two-one > .content,
+  .exampleblock.grid.one-two > .content,
+  .agenda {
+    grid-template-columns: 1fr;
+  }
+
+  .exampleblock.grid.quadchart > .content {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+}
+
+ol ol,
+ul ol {
+  list-style-type: lower-roman;
+}
+
+ul ul ol, 
+ul ol ol, 
+ol ul ol, 
+ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.exampleblock .title,
+.listingblock .title,
+table caption {
+  font-style: italic;
+  text-align: center;
+}
+
+pre {
+  margin-top: 0;
+}
+
+*:not(pre) > code, tt {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  background-color: #fcf7f2;
+  border: 1px solid #d1d9e0b3;
+  border-radius: 6px;
+}
+
+ul.checklist {
+  list-style-type: none;
+  padding-left: 0.6rem;
+}
+
+table {
+  margin-bottom: var(--space-4);
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  padding: 0;
+  margin-top: var(--space-4);
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+}
+
+dl dd {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+dd p {
+  margin-top: 0;
+}
+
+dd {
+  margin-left: 0;
+}
+
+.quoteblock {
+  margin: var(--space-6);
+  padding: 0 1em;
+  border-left: 0.25em solid #3c071266;
+}
+
+.quoteblock {
+  blockquote {
+    margin: var(--space-1);
+  }
+}
+
+.quoteblock {
+  & blockquote {
+    & p {
+      &:before {
+        transform: scale(-1, 1);
+      }
+      &:first-child:before, &:last-child:after {
+        content: "";
+        color: var(--accent);
+        font-family: 'Phosphor';
+        display: inline-block;
+        padding-left: 0.5em;
+      }
+    }
+  }
+}
+
+.quoteblock {
+  & > .attribution {
+    color: var(--text-muted);
+    font-size: 0.85em;
+    text-align: right;
+  }
+}
+
+.exampleblock {
+  & > .content {
+    border: 0.1em solid var(--bg-color-intense);
+    border-radius: 12px;
+    padding: 0.25em 0.75em;
+    margin-bottom: 1em;
+  }
+}
+
+kbd {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--text-main);
+  background: var(--bg-color-muted);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 0.1em var(--bg-main) inset;
+  padding: 0.1em 0.45em;
+  margin: 0 0.15em;
+  vertical-align: middle;
+  position: relative;
+  top: -0.05em;
+  white-space: nowrap;
+}
+
+.keyseq kbd:first-child { margin-left: 0; }
+.keyseq kbd:last-child  { margin-right: 0; }
+
+b.button {
+  display: inline-block;
+  background-color: var(--bg-color-intense);
+  color: white;
+  border-radius: 5em;
+  font-weight: normal;
+  font-size: 0.889em;
+  padding: 0.05em 0.5em 0.2em;
+  margin: 0 0.25em;
+  vertical-align: baseline;
+}
+
+.menuseq {
+  color: var(--menu-color, var(--bg-color-intense));
+  font-weight: bold;
+  padding: 0 0.25em;
+}
+
+.menuseq .caret {
+  color: var(--text-muted);
+  font-style: normal;
+  font-weight: normal;
+  padding: 0 0.15em;
+}
+
+[data-theme="dark"] {
+  --menu-color: var(--rule-color);
+}
+
+/* ---------- [ Icons ] ---------- */
+.ph {
+    display: inline-block;
+}
+.ph.size-1x {
+    font-size: 1em;
+}
+.ph.size-2x {
+    font-size: 2em;
+}
+.ph.size-3x {
+    font-size: 3em;
+}
+.ph.size-4x {
+    font-size: 4em;
+}
+.ph.size-5x {
+    font-size: 5em;
+}
+.ph.size-lg {
+    font-size: 6em;
+}
+.ph.size-fw {
+    font-size: 1em;
+} /* FIXME - Fixed width */
+
+.ph.flip-horizontal {
+    transform: scaleX(-1);
+}
+.ph.flip-vertical {
+    transform: scaleY(-1);
+}
+
+.ph.rotate-90 {
+    transform: rotate(90deg);
+}
+.ph.rotate-180 {
+    transform: rotate(180deg);
+}
+.ph.rotate-270 {
+    transform: rotate(270deg);
+}
+
+.accent {
+    color: var(--fgColor-accent);
+}
+.success {
+    color: var(--fgColor-success);
+}
+.attention {
+    color: var(--fgColor-attention);
+}
+.danger {
+    color: var(--fgColor-danger);
+}
+.done {
+    color: var(--fgColor-done);
+}
+
+/* Styles for AI prompt boxes */
+
+.openblock.prompt {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;              /* take full row width so next block wraps below */
+  clear: both;
+  margin-top: 10px;
+}
+
+.openblock.prompt::before {
+  content: "";
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-color-prompt);
+
+  /* Robot icon from Phosphor as an inline SVG data URI */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='none'%3E%3Ccircle cx='128' cy='96' r='64' stroke='%23888' stroke-width='16'/%3E%3Cpath d='M32 216c0-52.9 43.1-96 96-96s96 43.1 96 96' stroke='%23888' stroke-width='16' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+  display: block;
+  align-self: flex-end;
+}
+
+.openblock.prompt .content {
+  background: var(--bg-color-prompt-bubble);
+  border-radius: 18px 18px 18px 4px;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  margin-left: 5px;
+}
+
+.openblock.prompt .content p {
+  margin: 0;
+}
+
+.openblock.prompt-response {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;              /* take full row width so next block wraps below */
+  clear: both;
+  margin-top: 10px;
+}
+
+.openblock.prompt-response::before {
+  content: "";
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-color-prompt);
+
+  /* Person icon from Phosphor as an inline SVG data URI */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%23888'%3E%3Crect width='256' height='256' fill='none'/%3E%3Crect x='64' y='96' width='128' height='96' rx='8' fill='none' stroke='%23888' stroke-width='16'/%3E%3Cpath d='M160,96V88a32,32,0,0,0-64,0v8' fill='none' stroke='%23888' stroke-width='16'/%3E%3Ccircle cx='104' cy='144' r='8' fill='%23888'/%3E%3Ccircle cx='152' cy='144' r='8' fill='%23888'/%3E%3Cline x1='148' y1='192' x2='148' y2='216' stroke='%23888' stroke-width='16'/%3E%3Cline x1='108' y1='192' x2='108' y2='216' stroke='%23888' stroke-width='16'/%3E%3Cline x1='192' y1='120' x2='216' y2='120' stroke='%23888' stroke-width='16'/%3E%3Cline x1='40' y1='120' x2='64' y2='120' stroke='%23888' stroke-width='16'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+  display: block;
+  align-self: flex-end;
+}
+
+.openblock.prompt-response .content {
+  background: var(--bg-color-prompt);
+  border-radius: 18px 18px 18px 4px;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  margin-left: 5px;
+}
+
+.openblock.prompt .content p,
+.openblock.prompt-response .content p {
+  margin: 0;
+}
+
+.openblock.prompt .content .paragraph + .paragraph,
+.openblock.prompt-response .content .paragraph + .paragraph {
+  margin-top: 1em;
+}
+html {
+  /* This ensures the page stops scrolling before the title hits the top */
+  scroll-padding-top: calc(var(--header-height) + 20px); 
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s, color 0.3s;
+  line-height: 1.35;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga", "clig", "calt";
+  text-rendering: optimizeLegibility;
+}
+
+/* Standardized vertical rhythm — non-heading blocks share a bottom
+   margin of --space-4 (16 px). Headings get a larger bottom margin
+   (--space-6, 32 px) so heading → content reads as a clear break. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+}
+
+nav h2 {
+  margin-top: 0;
+}
+
+p, ul, ol, dl, pre, table, blockquote, figure,
+.imageblock, .listingblock, .literalblock, .openblock,
+.exampleblock, .sidebarblock, .admonitionblock, .quoteblock {
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+}
+
+h3 {
+  font-size: var(--font-size-title-lg);
+}
+
+h4 {
+  font-size: var(--font-size-title-md);
+}
+
+h5 {
+  font-size: var(--font-size-title-sm);
+}
+
+/* Fixed Header */
+body > header {
+  height: var(--header-height);
+  background-color: var(--bg-color-muted);
+  color: var(--header-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.container {
+  display: flex;
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Sticky Fixed Sidebar */
+aside {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  padding: var(--space-6) var(--space-5);
+  box-sizing: border-box;
+}
+
+/* Main Content & Image Scaling */
+main {
+  flex-grow: 1;
+  min-width: 0; /* Prevents layout break from code/images */
+  padding: var(--space-6) 4rem;
+}
+
+.doc-content {
+  margin: 0 auto;
+  max-width: 1200px;
+  /* Query container so grids stack on content width, not viewport
+     (the sidebar makes viewport width an unreliable proxy here). */
+  container-type: inline-size;
+}
+
+.doc-content .content-header {
+  background-color: var(--bg-color-intense);
+  color: white;
+  padding-top: clamp(var(--space-4), 3vw, var(--space-6));
+  padding-bottom: clamp(var(--space-6), 9vw, 6rem);
+  padding-inline: var(--header-padding-inline);
+  border-radius: 10px;
+}
+
+.doc-content .content-header .content-sub-title {
+  font-size: clamp(1.125rem, 4.5vw, var(--font-size-title-lg));
+  margin-bottom: 0;
+}
+
+.doc-content .content-header .content-title {
+  font-size: clamp(1.75rem, 8vw, 4rem);
+  line-height: 105%;
+  margin-top: 0;
+  overflow-wrap: break-word;
+}
+
+.doc-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-5) 0;
+  border-radius: 6px;
+}
+
+.doc-content pre {
+  background-color: var(--code-bg);
+  padding: 5px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+}
+
+/* TOC Styling */
+.toc-wrapper h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.toc-wrapper ul { 
+  list-style: none; padding: 0; margin: 0; 
+}
+.toc-wrapper li { 
+  margin-bottom: 0.6rem; 
+}
+.toc-wrapper a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    word-wrap: break-word;
+    position: relative; /* Added to anchor the pseudo-element */
+    display: flex;      /* Ensures the flex layout for icon placement */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    padding-right: 5px;
+    transition: color 0.2s ease;
+}
+
+.toc-wrapper a.active {
+    color: var(--link-color);
+    font-weight: 700;
+}
+
+.toc-wrapper a.active::before {
+  content: "";
+  position: absolute;
+  left: -12px; /* Positions the bar to the left of the text without pushing it */
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--link-color);
+  border-radius: 2px;
+}
+
+.toc-wrapper a span:first-child {
+  flex: 1;
+  overflow-wrap: break-word; /* Allows long words to break if necessary */
+  line-height: 1.2;
+}
+
+.sectlevel2 a.active::before {
+    left: -15px; /* Adjust as needed for nested indentation */
+}
+
+.toc-wrapper li {
+  margin-bottom: 0.6rem;
+  transition: transform 0.2s ease;
+}
+
+.toc-wrapper .sectlevel1 > li > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.toc-wrapper .sectlevel1 > li > a.active-parent::before {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--link-color);
+    border-radius: 2px;
+}
+
+.toc-wrapper a.active-parent {
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+/* Hide sub-levels by default */
+.toc-wrapper .sectlevel2 {
+  display: none;
+  padding-left: var(--space-5);
+  padding-top: var(--space-2);
+}
+
+/* Class to show the sub-level */
+.toc-wrapper .sectlevel2.is-visible {
+  display: block;
+}
+
+/* Styling for the expand icon */
+.toc-plus-icon {
+  flex-shrink: 0; /* Prevents the icon from being compressed by long text */
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(-45deg);
+  transition: transform 0.3s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover color for the arrow */
+.toc-wrapper a:hover .toc-plus-icon {
+  border-color: var(--link-color);
+}
+
+/* Rotate the arrow to point down when expanded */
+.toc-wrapper .is-expanded > a .toc-plus-icon {
+  transform: rotate(45deg);
+  border-color: var(--link-color);
+}
+
+#theme-toggle {
+  cursor: pointer;
+  padding: 6px 12px;
+  color: var(--header-color);
+  background: none;
+  border: 0;
+  font-size: 0.8rem;
+}
+
+.sun-icon { display: none; }
+.moon-icon { display: block; }
+
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+
+@media (max-width: 768px) {
+  .container { flex-direction: column; }
+  aside {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  main { padding: var(--space-6); }
+}
+
+.header-logo {
+  /* Dimensions for the logo */
+  width: 160px;
+  height: 40px;
+  margin-right: 15px;
+
+  /* Use the logo variable as a mask */
+  -webkit-mask-image: var(--theme-logo);
+  mask-image: var(--theme-logo);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  /* This forces the logo to match the header text color */
+  background-color: var(--header-color);
+  
+  /* Vertical alignment within the flex header */
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.sect1 > header {
+  background: var(--bg-color-light);
+  border-radius: 10px;
+  margin-top: var(--space-6);
+  padding-top: clamp(var(--space-4), 6vw, 4rem);
+  padding-bottom: clamp(1.25rem, 4.5vw, var(--space-8));
+  padding-inline: var(--header-padding-inline);
+}
+
+.sect1 > header > h2 {
+  font-size: clamp(1.5rem, 7vw, 3.25rem);
+  font-weight: normal;
+  margin-block: 0;
+  overflow-wrap: break-word;
+}
+
+.sect1 > header > p {
+  margin-block: 0;
+  font-weight: bolder;
+  font-size: clamp(1.125rem, 3.5vw, var(--font-size-title-md));
+}
+
+.objectives li {
+  margin-bottom: var(--space-3);
+}
+
+.objectives li:last-child {
+  margin-bottom: 0;
+}
+
+.objectives li p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.objectives ul {
+  list-style: none;
+  padding-left: var(--space-5);
+}
+
+.objectives li::before {
+  content: "\E182"; /* Phosphor check */
+  font-family: 'Phosphor';
+  font-weight: bold;
+  color: var(--accent);
+  display: inline-block;
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+li > p {
+  margin: 0;
+}
+
+.openblock.details {
+  border-top: 1px solid var(--rule-color);
+}
+
+.openblock.notes {
+  border-top: 3px solid var(--rule-color);
+  border-bottom: 3px solid var(--rule-color);
+}
+
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+}
+.hljs {
+  color: var(--code-color);
+  background: var(--code-bg);
+}
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable.language_ {
+  /* prettylights-syntax-keyword */
+  color: var(--code-keyword);
+}
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+  /* prettylights-syntax-entity */
+  color: var(--code-entity);
+}
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+  /* prettylights-syntax-constant */
+  color: var(--code-constant);
+}
+.hljs-regexp,
+.hljs-string,
+.hljs-meta .hljs-string {
+  /* prettylights-syntax-string */
+  color: var(--code-string);
+}
+.hljs-built_in,
+.hljs-symbol {
+  /* prettylights-syntax-variable */
+  color: var(--code-variable);
+}
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+  /* prettylights-syntax-comment */
+  color: var(--code-comment);
+}
+.hljs-name,
+.hljs-quote,
+.hljs-selector-tag,
+.hljs-selector-pseudo {
+  /* prettylights-syntax-entity-tag */
+  color: var(--code-entity-tag);
+}
+.hljs-subst {
+  /* prettylights-syntax-storage-modifier-import */
+  color: var(--code-storage-modifier-import);
+}
+.hljs-section {
+  /* prettylights-syntax-markup-heading */
+  color: var(--code-markup-heading);
+  font-weight: bold
+}
+.hljs-bullet {
+  /* prettylights-syntax-markup-list */
+  color: var(--code-markup-list);
+}
+.hljs-emphasis {
+  /* prettylights-syntax-markup-italic */
+  color: var(--code-markup-italic);
+  font-style: italic
+}
+.hljs-strong {
+  /* prettylights-syntax-markup-bold */
+  color: var(--code-markup-bold);
+  font-weight: bold
+}
+.hljs-addition {
+  /* prettylights-syntax-markup-inserted */
+  color: var(--code-markup-inserted);
+  background-color: var(--code-markup-inserted-bg);
+}
+.hljs-deletion {
+  /* prettylights-syntax-markup-deleted */
+  color: var(--code-markup-deleted);
+  background-color: var(--code-markup-deleted-bg);
+}
+.hljs-char.escape_,
+.hljs-link,
+.hljs-params,
+.hljs-property,
+.hljs-punctuation,
+.hljs-tag {
+  /* purposely ignored */
+  
+}
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: inherit;
+  border-left: 0.25em solid var(--borderColor-default);
+}
+
+.markdown-alert > :first-child {
+  margin-top: 0;
+}
+
+.markdown-alert > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--borderColor-accent-emphasis);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--fgColor-info);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--borderColor-done-emphasis);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--fgColor-done);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--borderColor-attention-emphasis);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--fgColor-attention);
+}
+
+.markdown-alert.markdown-alert-tip,
+.markdown-alert.markdown-alert-success {
+  border-left-color: var(--borderColor-success-emphasis);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title,
+.markdown-alert.markdown-alert-success .markdown-alert-title {
+  color: var(--fgColor-success);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--borderColor-danger-emphasis);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--fgColor-danger);
+}    
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-logo"></div>
+    <div style="flex: 1; font-weight: 600; font-size: 1.2rem;">AI-CLD-1001 Working Smarter with Claude Chat</div>
+    <button id="theme-toggle" aria-label="Toggle theme">
+      <svg class="moon-icon" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
+      </svg>
+      <svg class="sun-icon" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2a.5.5 0 0 1 .5-.5zM0 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 8zm13 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zM1.11 1.11a.5.5 0 0 1 .707 0l1.414 1.414a.5.5 0 1 1-.707.707L1.11 1.817a.5.5 0 0 1 0-.707zm11.778 11.778a.5.5 0 0 1 .707 0l1.414 1.414a.5.5 0 0 1-.707.707l-1.414-1.414a.5.5 0 0 1 0-.707zM1.817 14.89a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707.707l-1.414 1.414zm13.073-13.073a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0z"></path>
+      </svg>
+    </button>
+  </header>
+  <div class="container">
+    <aside>
+      <nav class="toc-wrapper">
+        <h2>Table of Contents</h2>
+        <ul class="sectlevel1">
+<li><a href="#_configuring_your_claude_workspace_for_knowledge_work">
+      <span>1. Configuring Your Claude Workspace for Knowledge Work</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction">1.1. Introduction</a></li>
+<li><a href="#_lab_overview">1.2. Lab Overview</a></li>
+<li><a href="#_tour_the_four_areas_of_the_claude_chat_interface">1.3. Tour the Four Areas of the Claude Chat Interface</a></li>
+<li><a href="#_view_and_edit_your_memory">1.4. View and Edit Your Memory</a></li>
+<li><a href="#_use_incognito_mode_and_chat_search">1.5. Use Incognito Mode and Chat Search</a></li>
+<li><a href="#_run_the_same_prompt_on_three_models">1.6. Run the Same Prompt on Three Models</a></li>
+<li><a href="#_challenge_activity_if_time_permits">1.7. Challenge Activity (If Time Permits)</a></li>
+<li><a href="#_key_takeaways">1.8. Key Takeaways</a></li>
+</ul>
+</li>
+<li><a href="#_prompting_grounding_and_tool_selection_for_business_tasks">
+      <span>2. Prompting, Grounding, and Tool Selection for Business Tasks</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_2">2.1. Introduction</a></li>
+<li><a href="#_lab_overview_2">2.2. Lab Overview</a></li>
+<li><a href="#_rewrite_the_vague_prompt_with_c_l_e">2.3. Rewrite the Vague Prompt with C-L-E</a></li>
+<li><a href="#_iterate_the_prompt_with_a_r">2.4. Iterate the Prompt with A-R</a></li>
+<li><a href="#_ground_claude_in_a_source_document">2.5. Ground Claude in a Source Document</a></li>
+<li><a href="#_complete_a_web_search_task">2.6. Complete a Web Search Task</a></li>
+<li><a href="#_complete_an_adaptive_thinking_task">2.7. Complete an Adaptive Thinking Task</a></li>
+<li><a href="#_complete_a_research_mode_task">2.8. Complete a Research Mode Task</a></li>
+<li><a href="#_challenge_activity_if_time_permits_2">2.9. Challenge Activity (If Time Permits)</a></li>
+<li><a href="#_key_takeaways_2">2.10. Key Takeaways</a></li>
+</ul>
+</li>
+<li><a href="#_personalizing_claude_with_preferences_and_styles">
+      <span>3. Personalizing Claude with Preferences and Styles</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_3">3.1. Introduction</a></li>
+<li><a href="#_lab_overview_3">3.2. Lab Overview</a></li>
+<li><a href="#_configure_profile_settings_and_observe_the_difference">3.3. Configure Profile Settings and Observe the Difference</a></li>
+<li><a href="#_compare_built_in_styles">3.4. Compare Built-in Styles</a></li>
+<li><a href="#_create_a_custom_style_using_tailor_to_an_audience">3.5. Create a Custom Style Using "Tailor to an Audience"</a></li>
+<li><a href="#_apply_the_custom_style_to_a_realistic_writing_task">3.6. Apply the Custom Style to a Realistic Writing Task</a></li>
+<li><a href="#_challenge_activity_if_time_permits_3">3.7. Challenge Activity (If Time Permits)</a></li>
+<li><a href="#_key_takeaways_3">3.8. Key Takeaways</a></li>
+</ul>
+</li>
+<li><a href="#_organizing_work_with_projects_and_artifacts">
+      <span>4. Organizing Work with Projects and Artifacts</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_4">4.1. Introduction</a></li>
+<li><a href="#_lab_overview_4">4.2. Lab Overview</a></li>
+<li><a href="#_scenario">4.3. Scenario</a></li>
+<li><a href="#_set_up_the_project">4.4. Set Up the Project</a></li>
+<li><a href="#_first_conversation_verify_context_application">4.5. First Conversation: Verify Context Application</a></li>
+<li><a href="#_second_conversation_verify_context_persistence">4.6. Second Conversation: Verify Context Persistence</a></li>
+<li><a href="#_build_an_initial_artifact">4.7. Build an Initial Artifact</a></li>
+<li><a href="#_challenge_activity_if_time_permits_4">4.8. Challenge Activity (If Time Permits)</a></li>
+<li><a href="#_key_takeaways_4">4.9. Key Takeaways</a></li>
+</ul>
+</li>
+<li><a href="#_designing_ai_delegation">
+      <span>5. Designing AI Delegation</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_5">5.1. Introduction</a></li>
+<li><a href="#_lab_overview_5">5.2. Lab Overview</a></li>
+<li><a href="#_scenario_2">5.3. Scenario</a></li>
+<li><a href="#_identify_risks_and_failure_modes">5.4. Identify Risks and Failure Modes</a></li>
+<li><a href="#_decompose_and_classify_subtasks">5.5. Decompose and Classify Subtasks</a></li>
+<li><a href="#_challenge_activity_if_time_permits_add_human_checkpoints_to_the_workflow">5.6. Challenge Activity (If Time Permits): Add Human Checkpoints to the Workflow</a></li>
+<li><a href="#_key_takeaways_5">5.7. Key Takeaways</a></li>
+<li><a href="#_solution_for_optional_in_line_challenge_activity_stress_test_entire_subtask_table_at_once">5.8. Solution for Optional In-Line Challenge Activity: Stress-test Entire SubTask Table at Once</a></li>
+</ul>
+</li>
+<li><a href="#_detecting_and_mitigating_ai_failure_modes">
+      <span>6. Detecting and Mitigating AI Failure Modes</span>
+      <span class="toc-plus-icon"></span>
+    </a>
+<ul class="sectlevel2">
+<li><a href="#_introduction_6">6.1. Introduction</a></li>
+<li><a href="#_lab_overview_6">6.2. Lab Overview</a></li>
+<li><a href="#_scenario_3">6.3. Scenario</a></li>
+<li><a href="#_identify_the_failure_modes">6.4. Identify the Failure Modes</a></li>
+<li><a href="#_revise_the_prompt_to_prevent_the_failures">6.5. Revise the Prompt to Prevent the Failures</a></li>
+<li><a href="#_challenge_activity_if_time_permits_5">6.6. Challenge Activity (If Time Permits)</a></li>
+<li><a href="#_key_takeaways_6">6.7. Key Takeaways</a></li>
+<li><a href="#_solution_failure_modes_identified_and_explained">6.8. Solution - Failure Modes Identified and Explained</a></li>
+</ul>
+</li>
+</ul>
+      </nav>
+    </aside>
+    <main>
+      <article class="doc-content">
+        <div class="content-header">
+          <p class="content-sub-title">AI-CLD-1001 Lab Guide</p>
+          <h1 class="content-title">Working Smarter with Claude Chat</h1>
+        </div>
+        <div class="sect1">
+<header><h2 id="_configuring_your_claude_workspace_for_knowledge_work">Configuring Your Claude Workspace for Knowledge Work</h2><p>Lab 1</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Navigate the four areas of the Claude Chat interface and configure profile preferences that align Claude with your role and communication norms</li>
+<li>Manage Claude’s memory and chat search to preserve useful professional context and exclude sensitive or one-off conversations</li>
+<li>Compare responses from Opus 4.7, Sonnet 4.6, and Haiku 4.5 on the same task to build intuition for model selection</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction">1.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 25 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will set up Claude Chat as a personalized environment for knowledge work rather than treating it as a generic chat window. You will move through the interface intentionally, configure the settings that shape how Claude interprets you, take direct control of what Claude remembers across sessions, and finish by running the same task across all three current models so you can feel — not just read about — the difference in speed, depth, and tone. The goal is to make Claude a reliable extension of your working context before you attempt any serious business task.</p>
+</div>
+<div class="markdown-alert markdown-alert-note">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-info"></i>&nbsp;Note
+      </p>
+      <p>This lab and all labs in this course are designed for the web version of Claude Chat. In addition, it assumes you are using a paid tier account, which provides access to all three models and the full suite of capabilities. If you are using a free tier account, you can still complete the lab but you may not have access to all three models or certain features. If that’s the case, just skip the activities that aren’t available to you and focus on understanding the concepts. Furthermore, some labs include the use of external files. Confirm with your instructor where to find these files.</p>
+    </div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview">1.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Tour the four areas of the Claude Chat interface and identify the purpose of each</p>
+</li>
+<li>
+<p>View and edit your memory, and directly instruct Claude to remember several facts you want retained across future sessions</p>
+</li>
+<li>
+<p>Conduct one conversation in incognito mode, then use chat search to retrieve verbatim content from a prior standalone conversation</p>
+</li>
+<li>
+<p>Run the same prompt on Opus 4.7, Sonnet 4.6, and Haiku 4.5, and compare response depth, tone, and latency</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tour_the_four_areas_of_the_claude_chat_interface">1.3. Tour the Four Areas of the Claude Chat Interface</h3>
+<div class="paragraph">
+<p>Open Claude Chat at claude.ai in your browser and sign in. Take a few minutes to locate each of the four areas and complete the small task associated with it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Area 1 — Left Sidebar (Navigation).</strong> Identify New Chat, Recents, Projects, and Artifacts.</p>
+</li>
+<li>
+<p><strong>Area 2 — Bottom Left (Personal Settings &amp; Configuration).</strong> Click your initials in the lower-left corner to open the personal settings menu. This is where Claude learns how you work — it contains memory, styles, connectors, and account settings. You will work directly with memory in the next activity.</p>
+</li>
+<li>
+<p><strong>Area 3 — Center Panel (Conversation).</strong> Locate the input bar at the bottom of the chat. Note the model selector below it, the "+" button for file attachments and tool toggles, and the ghost icon in the upper right that starts an incognito session.</p>
+</li>
+<li>
+<p><strong>Area 4 — Right Panel (Artifacts &amp; Project Details).</strong> Note that this area is contextual — it only opens when you are working with an artifact or inside a Project. You will not see it during a normal chat. We will work with this area in the next module.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_view_and_edit_your_memory">1.4. View and Edit Your Memory</h3>
+<div class="paragraph">
+<p>Memory is Claude’s synthesized model of who you are — your role, professional context, and working preferences. It is separate from your chat history and is auto-injected at the start of every new standalone conversation.</p>
+</div>
+<div class="sect3">
+<h4 id="_confirm_that_claude_currently_remembers_nothing_about_you">1.4.1. Confirm that Claude currently remembers nothing about you</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Settings &gt; Capabilities</strong></p>
+</li>
+<li>
+<p>In the <strong>Memory</strong> section make sure that "Search and reference chats" and "Generate memory from chat history" are both toggled "On" (the button turns blue).</p>
+</li>
+<li>
+<p>You should see an option to "View and manage memory" appear if you need to toggle "On" the above options.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Alternatively, Claude might not display "View and manage memory" if it doesn’t have any memories about you yet. Don’t worry, you will create some in a minute.</p>
+</li>
+<li>
+<p>Remember: if you are new to Claude (i.e. this is a new account for you), the memory will be empty or sparse — that is expected.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_instruct_claude_directly_to_remember_context_about_you">1.4.2. Instruct Claude directly to remember context about you</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start a new chat and enter a prompt that establishes standing context.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example memory instruction you can adapt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Please remember that I work in [your industry] as a [your role], and that when I ask for analysis I want a bottom-line-up-front summary followed by supporting detail.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Claude will confirm what it has stored in memory. (Watch for this message in the chat.)</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_return_to_settings_capabilities_view_and_edit_memory">1.4.3. Return to Settings &gt; Capabilities &gt; "View and edit memory"</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the new entry appears.</p>
+</li>
+<li>
+<p>Edit or remove anything that is incorrect, then reflect:</p>
+<div class="paragraph">
+<p>What kinds of information do you NOT want Claude to remember, and how would you keep it out?</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_incognito_mode_and_chat_search">1.5. Use Incognito Mode and Chat Search</h3>
+<div class="paragraph">
+<p>Some conversations should not feed Claude’s memory or appear in your history — sensitive HR matters, confidential strategy work, or one-off lookups. Claude provides incognito mode for exactly these cases.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate the <strong>ghost icon in the upper right</strong> of the chat panel.</p>
+</li>
+<li>
+<p>Click it to start an incognito session.</p>
+</li>
+<li>
+<p>Have a brief conversation about something sensitive or one-off.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example of an incognito-appropriate prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Help me draft talking points for a difficult conversation with a team member about declining performance.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Notice that the incognito chat does not appear in your <strong>Recents</strong>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_close_the_incognito_session">1.5.1. Close the incognito session</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_test_chat_search_functionality">1.5.2. Test chat search functionality</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return to a new standalone (non-incognito) chat.</p>
+</li>
+<li>
+<p>Ask Claude to retrieve content from the memory chat you ran earlier in this lab.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example chat search prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>What did I ask you to remember earlier today?</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Watch the chat for a visible tool call indicating Claude is searching your chat history.</p>
+</li>
+<li>
+<p>The result should include a citation linking back to the source conversation.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_try_asking_for_verbatim_content_from_the_incognito_conversation">1.5.3. Try asking for verbatim content from the incognito conversation</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Example prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>What were the talking points I drafted about the team member who exhibited declining performance?</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Did Claude retrieve verbatim content or a summary of what I told it to remember?</p>
+</li>
+<li>
+<p>Could Claude find content from my incognito conversation? Why or why not?</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_same_prompt_on_three_models">1.6. Run the Same Prompt on Three Models</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now you will run the same prompt on each of the three current Claude models and compare the responses side by side.</p>
+</li>
+<li>
+<p>Use this prompt, or substitute one from your own work:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>In three bullets, name the biggest trade-off a consulting firm faces when deciding whether to train all employees on AI vs only client-facing consultants.</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_run_the_prompt_three_separate_times_each_in_a_new_chat">1.6.1. Run the prompt three separate times — each in a new chat</h4>
+<div class="markdown-alert markdown-alert-important">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-warning-circle"></i>&nbsp;Important
+      </p>
+      <p>Do not switch models mid-conversation, as that may clear cached context and consume additional usage limits.</p>
+    </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the model to <strong>Claude Haiku 4.5.</strong> Submit the prompt. Note:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>How quickly the response started streaming</p>
+</li>
+<li>
+<p>Total response length (number of bullets, sentences, or words)</p>
+</li>
+<li>
+<p>Whether the trade-offs identified are surface-level or substantive</p>
+</li>
+<li>
+<p>Whether the response feels complete or feels rushed</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Start a new chat. Set the model to <strong>Claude Sonnet 4.6.</strong> Submit the same prompt. Compare to Haiku:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Did response time noticeably increase?</p>
+</li>
+<li>
+<p>Did Sonnet identify different or deeper trade-offs than Haiku?</p>
+</li>
+<li>
+<p>Did Sonnet add nuance, qualifications, or second-order considerations Haiku missed?</p>
+</li>
+<li>
+<p>Does the tone feel more polished or executive-ready?</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Start a new chat. Set the model to <strong>Claude Opus 4.7.</strong> Submit the same prompt. Compare to both prior runs:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>How much longer did Opus take vs. Haiku and Sonnet?</p>
+</li>
+<li>
+<p>Did Opus surface trade-offs neither of the other models considered?</p>
+</li>
+<li>
+<p>Is the reasoning visibly more structured or rigorous?</p>
+</li>
+<li>
+<p>For <strong>this specific prompt</strong>, did the extra depth justify the extra latency?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_review_your_three_outputs_side_by_side_and_reflect">1.6.2. Review your three outputs side by side and reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Which model produced the most usable response for this specific task?</p>
+</li>
+<li>
+<p>Was the difference in depth proportional to the difference in latency?</p>
+</li>
+<li>
+<p>For your daily work, which model would you default to? When would you escalate to Opus 4.7? When would you drop to Haiku 4.5?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits">1.7. Challenge Activity (If Time Permits)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open one of the three model-comparison chats</p>
+</li>
+<li>
+<p>Switch the model mid-conversation by selecting a different model from the model selector below the input bar.</p>
+</li>
+<li>
+<p>Then send a follow-up prompt — for example, <em>"Tighten your previous answer to three bullet points."</em></p>
+</li>
+<li>
+<p>Observe whether the response feels slower than usual, and notice if Claude acknowledges that the model has changed.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This demonstrates why a new chat is preferable when you genuinely need a different model.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways">1.8. Key Takeaways</h3>
+<div class="paragraph">
+<p>Claude Chat is a configured environment for knowledge work, not a generic chatbox:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Memory gives Claude standing context about your role, work, and preferences across every new conversation</p>
+</li>
+<li>
+<p>Memory and chat history are independent systems with independent controls in <strong>Settings &gt; Capabilities</strong></p>
+</li>
+<li>
+<p>Incognito mode is the right choice for sensitive or one-off conversations — it bypasses both memory and chat history</p>
+</li>
+<li>
+<p>Match the model to the task: Haiku 4.5 for speed, Sonnet 4.6 for daily work, Opus 4.7 when accuracy and depth matter most</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<header><h2 id="_prompting_grounding_and_tool_selection_for_business_tasks">Prompting, Grounding, and Tool Selection for Business Tasks</h2><p>Lab 2</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Apply the C-L-E-A-R framework to transform a vague prompt into a precise, actionable instruction</li>
+<li>Ground Claude’s responses in an uploaded source document to reduce generic output and improve factual accuracy</li>
+<li>Select and use the appropriate tool based on the business task — web search, adaptive thinking, or Research mode</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction_2">2.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 40 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will move from personalization into production — using Claude to generate real, defensible work product. You will start with a deliberately weak prompt and progressively sharpen it using the C-L-E-A-R framework, then add a source document so Claude works from your material rather than its general knowledge. You will then complete three short, targeted tasks — one using web search, one using adaptive thinking, and one using Research mode — so you leave the lab with first-hand experience of when each tool is the right choice.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview_2">2.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Rewrite a provided vague business prompt by applying the Concise, Logical, and Explicit principles</p>
+</li>
+<li>
+<p>Iterate on your rewritten prompt using the Adaptive and Reflective principles, revising based on Claude’s initial response</p>
+</li>
+<li>
+<p>Upload a source document and instruct Claude to answer using only that material</p>
+</li>
+<li>
+<p>Complete a Web Search task: use Claude to find and cite current, factual information on a specified business topic</p>
+</li>
+<li>
+<p>Complete an Adaptive Thinking task: use Claude to work through a multi-step analytical problem with no external sources</p>
+</li>
+<li>
+<p>Complete a Research Mode task: commission a multi-source comparative report and review the chain-of-thought log afterward</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rewrite_the_vague_prompt_with_c_l_e">2.3. Rewrite the Vague Prompt with C-L-E</h3>
+<div class="sect3">
+<h4 id="_start_a_new_chat_in_claude_chat">2.3.1. Start a new chat in Claude Chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Begin by submitting a deliberately weak prompt and observing the response.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example of a vague business prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>What should a SaaS company do when they expand to Europe? Tell me everything I need to know.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_the_prompt_and_review_the_output">2.3.2. Submit the prompt and review the output</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The response will likely be long, generic, and unfocused.</p>
+</li>
+<li>
+<p>The prompt fails on three counts:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Concise:</strong> contains conversational filler ("when they", "Tell me everything I need to know")</p>
+</li>
+<li>
+<p><strong>Logical:</strong> mixes two different concepts — actions ("what to do") and information ("what to know")</p>
+</li>
+<li>
+<p><strong>Explicit:</strong> specifies no industry detail, no target countries, no audience, no format</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_now_rewrite_the_prompt_by_applying_concise_logical_and_explicit">2.3.3. Now rewrite the prompt by applying Concise, Logical, and Explicit</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Pick one concept (actions OR information), strip the filler, and add the missing specifics.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example of an improved prompt using C-L-E:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>You are advising a U.S.-based HR compliance SaaS company entering the UK, Germany, and France. Identify the top three strategic decisions they must make in their first year of expansion.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_run_the_improved_prompt_in_the_same_chat">2.3.4. Run the improved prompt in the same chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Compare the two responses.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Did the improved prompt produce a more focused, business-ready response?</p>
+</li>
+<li>
+<p>Which of the three principles — Concise, Logical, or Explicit — had the biggest impact?</p>
+</li>
+<li>
+<p>What is still missing from the response?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iterate_the_prompt_with_a_r">2.4. Iterate the Prompt with A-R</h3>
+<div class="paragraph">
+<p>The Concise, Logical, and Explicit principles get you a usable first draft. Adaptive and Reflective drive what happens next: review Claude’s response, identify what is missing or off-target, and revise the prompt accordingly.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Review the response Claude gave to your improved C-L-E prompt</p>
+</li>
+<li>
+<p>Identify at least one of the following:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>A constraint you forgot to specify (length, format, audience, tone)</p>
+</li>
+<li>
+<p>An aspect of the response that is too generic, off-target, or hedge-laden</p>
+</li>
+<li>
+<p>A piece of structure that would make the output more decision-ready</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Now revise the prompt to address what you found</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example of a revised prompt using A and R:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>You are advising a U.S.-based HR compliance SaaS company entering the UK, Germany, and France over three years. Identify the top three strategic decisions they must make in their first year, ranked by financial risk. Format as an executive memo, 250 words maximum. Lead each decision with the recommendation, then a one-sentence rationale. Audience: a CFO with M&amp;A background. Avoid hedging language.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_run_the_revised_prompt">2.4.1. Run the revised prompt</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Compare the new output to your C-L-E version.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>What did adding ranking, format, and audience constraints unlock in the response?</p>
+</li>
+<li>
+<p>Did Claude follow your "avoid hedging" instruction, or did it slip back into generalities?</p>
+</li>
+<li>
+<p>Would another iteration improve it further? What would you change?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ground_claude_in_a_source_document">2.5. Ground Claude in a Source Document</h3>
+<div class="paragraph">
+<p>Now you will add a real source document and explicitly restrict Claude to using only that material. This is the External Knowledge Restriction technique — it dramatically reduces hallucinations and forces Claude to ground its answers in your content rather than its general training data.</p>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_chat">2.5.1. Start a new chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Upload <strong>market_entry_strategy.txt</strong> using the "+" button or by dragging the file into the chat input.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This file is located in the lab files directory; confirm with your instructor where to find it.</p>
+</li>
+<li>
+<p>It contains a sample market entry strategy for a fictional SaaS company called CompliSure, which is expanding into Europe.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Confirm the file is attached</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_a_prompt_that_explicitly_tells_claude_to_use_only_the_document">2.5.2. Submit a prompt that explicitly tells Claude to use only the document</h4>
+<div class="paragraph">
+<p>Here’s an example of a knowledge-restricted prompt:</p>
+</div>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Using ONLY the content of the uploaded document, answer the following: For each of the three target countries (UK, Germany, France), list the entry mode CompliSure plans to use and explain why that mode was chosen. If any information is not in the document, say so explicitly — do not infer or supplement from your general knowledge.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_review_claudes_response">2.5.3. Review Claude’s response</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify each claim in the model’s response against the source document to ensure Claude only uses information from the document.</p>
+</li>
+<li>
+<p>Then ask a follow-up question that the document does NOT actually answer.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example follow-up:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Using only the document, what is CompliSure’s current market share in the UK and who are their top three named competitors?</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Review the response to see if Claude correctly identifies that this information is not in the document, or if it hallucinates an answer based on its training data.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Claude should acknowledge the information is not in the provided document, rather than fabricating an answer.</p>
+</li>
+<li>
+<p>If Claude provides a specific answer without flagging uncertainty, revisit your prompt and try asking more directly.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Did Claude correctly identify that the market share and named competitors are not in the document?</p>
+</li>
+<li>
+<p>How does forcing Claude to use only one source change the tone and confidence of the response?</p>
+</li>
+<li>
+<p>When in your real work would the "use ONLY this material" instruction be valuable?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complete_a_web_search_task">2.6. Complete a Web Search Task</h3>
+<div class="paragraph">
+<p>Web search is the right tool when you need current, factual information that may have changed since Claude’s training data — recent regulations, market data, company announcements, or news.</p>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_chat_2">2.6.1. Start a new chat</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_enable_web_search_via_the_button_toggle_web_search_on">2.6.2. Enable web search via the "+" button (toggle Web search on)</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_submit_a_prompt_that_requires_current_information_and_citations">2.6.3. Submit a prompt that requires current information and citations</h4>
+<div class="paragraph">
+<p>Here’s an example web search prompt:</p>
+</div>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Search the web for the most recent EU GDPR enforcement actions against SaaS companies in 2025 and 2026. Provide a brief summary of two notable cases, the fine amounts, and the underlying violations. Include source citations and links.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_watch_the_visible_search_activity_in_the_chat">2.6.4. Watch the visible search activity in the chat</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_review_the_response_and_reflect">2.6.5. Review the response and reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Were the citations clickable and to credible sources?</p>
+</li>
+<li>
+<p>Did Claude cross-reference facts across multiple sources, or rely on a single one?</p>
+</li>
+<li>
+<p>When would web search be the wrong tool for the job?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complete_an_adaptive_thinking_task">2.7. Complete an Adaptive Thinking Task</h3>
+<div class="paragraph">
+<p>Adaptive thinking is the right tool for complex multi-step reasoning where no external sources are needed — math, logic, financial modeling, weighing alternatives, ethics, or any task where careful step-by-step thought matters more than current data.</p>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_chat_using_sonnet_4_6_or_opus_4_7">2.7.1. Start a new chat using Sonnet 4.6 or Opus 4.7</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Both have adaptive thinking enabled by default.</p>
+</li>
+<li>
+<p>You do not need to toggle anything — Claude will engage thinking automatically when the question warrants it.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_a_prompt_that_requires_multi_step_thinking">2.7.2. Submit a prompt that requires multi-step thinking</h4>
+<div class="paragraph">
+<p>Here’s an example adaptive thinking prompt:</p>
+</div>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>CompliSure plans a 3-year European expansion with a $20M total investment budget. Year 1 consumes 40% of the budget with no revenue. Year 2 reaches break-even on operating costs. Year 3 must deliver a 25% return on the full $20M investment. Calculate (a) the required Year 3 revenue, (b) the average monthly Year 3 revenue, and (c) what the Year 3 revenue requirement implies about the average annual revenue per customer if CompliSure aims for 1,000 paying European customers by end of Year 3. Show your reasoning step by step.</p>
+</div>
+</div>
+</div>
+<div class="markdown-alert markdown-alert-success">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-lightbulb"></i>&nbsp;Tip
+      </p>
+      <p>Watch for the "Thinking…​" indicator while Claude works through the math.</p>
+    </div>
+</div>
+<div class="sect3">
+<h4 id="_after_the_response_arrives">2.7.3. After the response arrives</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expand the thinking section above the answer to see Claude’s exposed reasoning.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Did Claude’s exposed reasoning match the final numerical answer?</p>
+</li>
+<li>
+<p>Where did Claude pause and verify? Where did it commit quickly?</p>
+</li>
+<li>
+<p>If you had asked the same question with thinking off, would you trust the result?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Correct answers to the example prompt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Year 3 revenue required = $20M * 1.25 = $25M</p>
+</li>
+<li>
+<p>Average monthly Year 3 revenue = $25M / 12 ≈ $2.08M</p>
+</li>
+<li>
+<p>Average annual revenue per customer = $25M / 1,000 = $25,000</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complete_a_research_mode_task">2.8. Complete a Research Mode Task</h3>
+<div class="paragraph">
+<p>Research mode runs multiple agentic searches that build on each other, producing a citation-backed comparative report. Use it when you need synthesis across many sources, not a single answer. Research mode can run from 5 to 30 minutes depending on scope, so you must constrain the scope clearly in your prompt or it will consume the rest of your lab time.</p>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_chat_3">2.8.1. Start a new chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enable Research mode via the "+" button</p>
+</li>
+<li>
+<p>The magnifying glass icon turns blue when on</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_a_tightly_scoped_research_query_with_explicit_limits">2.8.2. Submit a tightly scoped research query with explicit limits</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example Research mode prompt with built-in scope constraints:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Research the European HR compliance SaaS market. Identify three established vendors — ideally one each operating primarily in the UK, Germany, and France. For each vendor, provide: company name, target customer size, two key product differentiators, and one recent strategic move from the last 12 months. Limit research to no more than two sources per vendor. Keep total research time under 5 minutes.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>While Research mode runs, observe the live progress display in the conversation panel. You may see some or all of the following, depending on how Claude approaches the task:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A <strong>running status indicator</strong> showing that Research is active, along with an elapsed time counter</p>
+</li>
+<li>
+<p>A <strong>plan or task list</strong> Claude generates at the start, breaking your query into sub-questions it intends to investigate</p>
+</li>
+<li>
+<p>A <strong>live stream of search queries</strong> Claude is sending to the web — these update as Claude decides what to look for next</p>
+</li>
+<li>
+<p><strong>Source URLs and page titles</strong> appearing as Claude retrieves them, often with a brief note on what Claude is extracting from each</p>
+</li>
+<li>
+<p><strong>Claude’s reasoning between searches</strong> — short notes explaining why a source was useful, why one was discarded, or why Claude is pivoting to a new line of investigation</p>
+</li>
+<li>
+<p>A final <strong>synthesis step</strong> where Claude assembles the report and attaches citations to specific claims</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_after_the_report_is_delivered">2.8.3. After the report is delivered</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expand the chain-of-thought log and review it.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Were the citations easy to verify? Did any look weak or low-quality?</p>
+</li>
+<li>
+<p>How does this output compare to what web search alone gave you in the earlier activity?</p>
+</li>
+<li>
+<p>When in your real work would Research mode be worth the extra time and usage cost?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits_2">2.9. Challenge Activity (If Time Permits)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Take a real prompt from your own current work — something you have actually asked an AI tool, or would ask.</p>
+</li>
+<li>
+<p>Paste it into Claude and ask Claude to apply the C-L-E-A-R framework to revise it.</p>
+</li>
+<li>
+<p>Run both your original prompt and Claude’s revised version and compare the responses.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Note one specific improvement that came from the rewrite.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_2">2.10. Key Takeaways</h3>
+<div class="paragraph">
+<p>The C-L-E-A-R framework is iterative, not one-shot:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Concise, Logical, and Explicit get you a usable first draft</p>
+</li>
+<li>
+<p>Adaptive and Reflective improve it through revision after seeing Claude’s response</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Grounding and tool selection determine whether Claude’s output is defensible:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use "use ONLY this material" instructions to ground Claude in your source documents and reduce hallucinations</p>
+</li>
+<li>
+<p>Match the tool to the task: web search for current facts, adaptive thinking for complex reasoning, Research mode for multi-source synthesis</p>
+</li>
+<li>
+<p>The right prompt and the right tool together produce business-ready output you can stand behind</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<header><h2 id="_personalizing_claude_with_preferences_and_styles">Personalizing Claude with Preferences and Styles</h2><p>Lab 3</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Configure profile settings that establish consistent context across every Claude conversation</li>
+<li>Apply built-in styles to adapt Claude’s tone, length, and format to different audiences and tasks</li>
+<li>Create a custom style that reflects your own voice or a specific communication standard</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction_3">3.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 25 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will move beyond default Claude responses to shape both how Claude understands you and how it communicates back. You will configure profile settings that persist across every conversation, experiment with Claude’s built-in styles to see how the same prompt produces very different outputs, and create a custom style that captures your personal or professional voice. By the end, you will have a personalized Claude configuration ready to support your recurring work and audiences.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview_3">3.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Settings</strong> and configure your profile to provide Claude with your name and instructions about your role, domain, typical tasks, and general communication preferences</p>
+</li>
+<li>
+<p>Run the same prompt before and after providing profile settings to observe the difference in Claude’s response</p>
+</li>
+<li>
+<p>Compare the Normal default style to three built-in styles (Concise, Formal, and Explanatory or Learning) to a single business prompt</p>
+</li>
+<li>
+<p>Compare the resulting outputs for tone, length, and structure, and identify which style fits which audience</p>
+</li>
+<li>
+<p>Create a custom style using one of three methods — uploading writing samples, describing the style in natural language, or using Custom Instructions (Advanced)</p>
+</li>
+<li>
+<p>Apply the custom style to a realistic writing task and evaluate whether it matches your intended voice</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_profile_settings_and_observe_the_difference">3.3. Configure Profile Settings and Observe the Difference</h3>
+<div class="paragraph">
+<p>Profile settings are personal instructions Claude applies to every conversation. They tell Claude who you are and what you do — separate from styles, which control how Claude formats responses. Configure them once and Claude carries that context into every new chat.</p>
+</div>
+<div class="sect3">
+<h4 id="_run_a_baseline_prompt_with_no_profile_settings">3.3.1. Run a baseline prompt with no profile settings</h4>
+<div class="markdown-alert markdown-alert-note">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-info"></i>&nbsp;Note
+      </p>
+      <p>This activity assumes you are using a "new" account and have not yet configured any profile settings. If you have existing settings, you can either clear them now or simply use what you currently have, submit the example prompt, and note the response as your baseline.</p>
+    </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start a new chat and submit a casual, open-ended request that depends on knowing who you are.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example baseline prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Help me prep for tomorrow’s leadership meeting.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Submit and review.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Without defined profile settings, Claude has to ask follow-up questions or guess at your context.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_now_configure_your_profile_settings">3.3.2. Now configure your profile settings</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click your initials in the lower-left corner</p>
+</li>
+<li>
+<p>Open <strong>Settings</strong> and choose <strong>General</strong>. Your profile settings are located at the top of the page.</p>
+</li>
+<li>
+<p>If your profile is blank, answer the questions presented to you and include instructions to Claude on how you like to receive information, what your role is, etc.</p>
+</li>
+<li>
+<p>Or edit the existing text if you already had profile settings</p>
+</li>
+<li>
+<p>In either case:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Be more specific, and more detailed than you think is necessary — the goal is to give Claude rich context to draw from in every conversation</p>
+</li>
+<li>
+<p>This is the context Claude will use in every conversation to tailor responses to your needs and working style</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example instructions entry:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>I am a senior consultant working with mid-sized companies on operations and strategy projects. My typical tasks include client presentations, risk assessments, and stakeholder briefings. My audiences range from frontline managers to C-suite executives. I prefer bottom-line-up-front responses, concise structured output, and quantified trade-offs over qualitative generalities.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_a_fresh_chat">3.3.3. Start a fresh chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Resubmit the <strong>same</strong> baseline prompt.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Did Claude’s response shift from generic to context-aware?</p>
+</li>
+<li>
+<p>What did Claude assume about your meeting audience and topics?</p>
+</li>
+<li>
+<p>What additional profiles settings would tighten the response further?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compare_built_in_styles">3.4. Compare Built-in Styles</h3>
+<div class="paragraph">
+<p>Claude ships with five preset styles: <strong>Normal</strong>, <strong>Concise</strong>, <strong>Formal</strong>, <strong>Learning</strong>, and <strong>Explanatory</strong>. They control tone, length, and structure — not content. The fastest way to feel the difference is to run the same prompt under each.</p>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_chat_4">3.4.1. Start a new chat</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Pick a single business prompt to use as your control.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example control prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Explain the difference between a project risk and a project issue, and provide one example of each in the context of a major program.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_the_prompt_under_normal_the_default">3.4.2. Submit the prompt under Normal (the default)</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_switch_the_style_and_resubmit_the_prompt_four_more_times">3.4.3. Switch the style and resubmit the prompt four more times</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Once each under <strong>Concise</strong>, <strong>Formal</strong>, <strong>Learning</strong>, and <strong>Explanatory</strong>.</p>
+</li>
+<li>
+<p>Switch styles via the <strong>"+"</strong> button in the lower-left corner of the chat input area, then <strong>Use style</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_compare_the_four_responses_side_by_side_and_reflect">3.4.4. Compare the four responses side by side and reflect</h4>
+<div class="paragraph">
+<p>Here are Anthropic’s descriptions of the built-in styles to guide your analysis:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Concise</strong>: Short and to the point, with minimal explanation or elaboration.</p>
+</li>
+<li>
+<p><strong>Formal</strong>: Professional and polished, with a tone suitable for business or academic communication.</p>
+</li>
+<li>
+<p><strong>Explanatory</strong>: Clear and detailed, with a focus on teaching and ensuring understanding.</p>
+</li>
+<li>
+<p><strong>Learning</strong>: Similar to Explanatory but with an even stronger emphasis on clarity, step-by-step explanations, and educational value.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Reflect:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Which style produced the shortest response? Which produced the longest?</p>
+</li>
+<li>
+<p>Which style would you send to a busy executive? Which to a new team member who needs to learn the concept?</p>
+</li>
+<li>
+<p>Did any style misfit the prompt — too formal, too breezy, too pedagogical?</p>
+</li>
+<li>
+<p>Can you detect a difference between <strong>Explanatory</strong> and <strong>Learning</strong>, which are similar but not identical?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_custom_style_using_tailor_to_an_audience">3.5. Create a Custom Style Using "Tailor to an Audience"</h3>
+<div class="paragraph">
+<p>Custom styles let you go beyond the four presets. Claude offers three creation methods: uploading writing samples, describing the style in natural language, or starting from a template. The most natural starting point for stakeholder-driven communication is <strong>Tailor to an audience</strong>, which lets Claude generate the style instructions for you based on a description of who you’re writing to. Follow the steps below to build your custom style. You will choose one of two audience options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Financial Brief</strong> (financial services and banking professionals)</p>
+</li>
+<li>
+<p><strong>Data Center Energy Brief</strong> (data center infrastructure professionals).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The steps are identical for both options; only the audience description and the test prompt differ.</p>
+</div>
+<div class="sect3">
+<h4 id="_open_the_style_menu">3.5.1. Open the style menu</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the chat interface, click <strong>"+"</strong> (lower left of the chat input area)</p>
+</li>
+<li>
+<p>Then select <strong>Use style</strong></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_open_the_style_editor">3.5.2. Open the style editor</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the style dropdown, click <strong>Create &amp; edit styles</strong> to open the <strong>Customize your styles</strong> modal</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_custom_style">3.5.3. Start a new custom style</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click <strong>Create custom style</strong> in the bottom left corner of the modal</p>
+</li>
+<li>
+<p>Choose the description method</p>
+</li>
+<li>
+<p>Click <strong>Describe style instead</strong> link to switch from the upload method to the describe method</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_select_a_starting_point">3.5.4. Select a starting point</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select <strong>Tailor to an audience</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>This prompts Claude to ask about the target audience’s characteristics and needs</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_describe_your_audience">3.5.5. Describe your audience</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the text field on the right, enter <strong>one</strong> of the following audience descriptions, depending on the style you want to build:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Financial Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Write for financial services and banking professionals — investment bankers, credit officers, compliance leads, and senior banking executives. The audience has deep knowledge of capital markets, banking regulations, financial instruments, and risk management. Responses should be precise, data-driven, and measured — in the manner of a senior managing director presenting to an investment committee. Lead with the recommendation or thesis, support with quantified evidence and clear risk framing, and favor structured summaries with relevant figures, ratios, and time horizons. Use industry terminology accurately and define less common terms or acronyms (e.g., LCR, SIFI, CCAR) on first use.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><strong>Data Center Energy Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Write for data center infrastructure professionals — site selection leads, energy strategists, sustainability officers, and senior facilities engineers. The audience understands power generation technologies, grid economics, power purchase agreements, and sustainability frameworks. Responses should be technically precise, decision-oriented, and practical — in the manner of a senior infrastructure engineer briefing a hyperscaler executive. Lead with the recommendation, quantify trade-offs in megawatts, capacity factors, capex/opex, and emissions, and favor structured comparisons over narrative prose. Use technical terminology accurately (e.g., PUE, PPA, baseload, LCOE) and define less common acronyms on first use.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_generate_and_save_the_style">3.5.6. Generate and save the style</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click <strong>Generate style</strong></p>
+</li>
+<li>
+<p>Review the generated style instructions in the preview panel</p>
+</li>
+<li>
+<p>Rename the style (e.g., <em>Financial Brief</em> or <em>Data Center Energy Brief</em>) and save</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_activate_the_style">3.5.7. Activate the style</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a new chat</p>
+</li>
+<li>
+<p>Return to <strong>"+"</strong>, select <strong>Use style</strong>, then select your newly created style to apply it to the conversation</p>
+</li>
+<li>
+<p>Submit the test prompt that matches your audience choice:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If you chose the <strong>Financial Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Brief me on the strategic implications of the Basel III endgame capital rules for U.S. regional banks.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>If you chose the <strong>Data Center Energy Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Assess the strategic trade-offs between small modular reactors (SMRs) and large-scale on-site solar plus storage as primary power for a new 500 MW hyperscale AI data center campus.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_note_the_difference_in_response_compared_to_the_default_style_and_reflect">3.5.8. Note the difference in response compared to the default style and reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>How closely did Claude’s generated style instructions match what you would have written manually?</p>
+</li>
+<li>
+<p>Did the response sound like it was written for the persona described in your audience description?</p>
+</li>
+<li>
+<p>What would you tweak in the audience description to sharpen the voice further?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_apply_the_custom_style_to_a_realistic_writing_task">3.6. Apply the Custom Style to a Realistic Writing Task</h3>
+<div class="paragraph">
+<p>A custom style is only useful if it holds up across different prompts. Test consistency by applying your newly created style to a realistic writing task in the same conversation, or in a new chat with the style still active.</p>
+</div>
+<div class="sect3">
+<h4 id="_use_the_writing_task_that_matches_the_style_you_built">3.6.1. Use the writing task that matches the style you built</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>If you built the <strong>Financial Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Draft a brief email from a managing director to the firm’s Chief Risk Officer recommending whether to approve a $200M syndicated loan to a regional retailer with deteriorating credit metrics. Include your recommendation, the top two risk drivers, and the specific decision you need from the CRO by end of week.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>If you built the <strong>Data Center Energy Brief</strong>:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Draft a brief email from a head of infrastructure to the company’s CTO recommending whether to commit to a 15-year power purchase agreement with a wind plus storage developer for a new 200 MW hyperscale data center site. Include your recommendation, the top two trade-offs, and the specific decision you need from the CTO.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_the_prompt_with_your_custom_style_applied_and_reflect">3.6.2. Submit the prompt with your custom style applied and reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Did the email lead with the bottom line, as your audience description specified?</p>
+</li>
+<li>
+<p>Were technical terms or acronyms used appropriately and defined where needed?</p>
+</li>
+<li>
+<p>Would you actually send this email, or does it need a revision?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits_3">3.7. Challenge Activity (If Time Permits)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <strong>second</strong> custom style — same <strong>Tailor to an audience</strong> method, but for a sharply contrasting audience in the same domain.</p>
+</li>
+<li>
+<p>If you built <strong>Financial Brief</strong> (senior bankers), build a second style for retail banking customers — everyday consumers with no finance background and no patience for jargon.</p>
+</li>
+<li>
+<p>If you built <strong>Data Center Energy Brief</strong> (infrastructure professionals), build a second style for a sustainability-focused board member with no technical background.</p>
+</li>
+<li>
+<p>Apply your new style to the <strong>same test prompt</strong> you used for your first style, and compare the two responses side by side.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The same content delivered to two very different audiences should look almost unrecognizable — that is the point of audience-tailored styles.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_3">3.8. Key Takeaways</h3>
+<div class="paragraph">
+<p>Preferences and styles are complementary, not interchangeable:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Preferences</strong> tell Claude who you are and what you do — they travel into every conversation</p>
+</li>
+<li>
+<p><strong>Styles</strong> tell Claude how to format and deliver — they attach to specific conversations</p>
+</li>
+<li>
+<p>Built-in styles cover many cases; <strong>custom styles</strong> capture specific audiences or voice standards</p>
+</li>
+<li>
+<p><strong>Tailor to an audience</strong> is the fastest way to create a style for stakeholder-driven communication</p>
+</li>
+<li>
+<p>Preferences and styles stack — set preferences once, then layer the right style for each conversation</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<header><h2 id="_organizing_work_with_projects_and_artifacts">Organizing Work with Projects and Artifacts</h2><p>Lab 4</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Create and configure a project workspace with instructions and a supporting knowledge base</li>
+<li>Leverage persistent project context across multiple conversations to maintain continuity</li>
+<li>Build upon an artifact that can be reused, refined, or shared beyond the original chat</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction_4">4.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 50 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will set up a persistent Claude workspace for an ongoing body of work and produce a reusable artifact within it. Projects let you collect files, set standing instructions, and keep conversations organized around a specific engagement or initiative. Artifacts let you generate standalone tools, documents, or interactive apps that are discoverable in your sidebar and can be shared externally. Together, these features transform Claude from a one-off assistant into a dedicated workspace for your recurring work.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview_4">4.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new project with a descriptive name tied to a realistic work scenario</p>
+</li>
+<li>
+<p>Write project instructions that define Claude’s role, tone, constraints, and any context Claude should always apply</p>
+</li>
+<li>
+<p>Upload one or more reference files to the project knowledge base</p>
+</li>
+<li>
+<p>Start a conversation within the project and confirm that Claude applies the instructions and draws on the uploaded files</p>
+</li>
+<li>
+<p>Start a second conversation in the same project to verify that context persists across chats</p>
+</li>
+<li>
+<p>Ask Claude to build an artifact (discoverable in the sidebar) that is relevant to the project — for example, a checklist, calculator, dashboard, or reference document</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scenario">4.3. Scenario</h3>
+<div class="paragraph">
+<p>You are the Program Manager (PM) at Meridian Analytics, a 320-employee B2B SaaS company with $42M in annual recurring revenue. Your job for the next 90 days is to coordinate the cross-functional launch of Pulse. Pulse is Meridian’s first AI-native product, an analytics platform that unifies marketing campaign data, surfaces performance anomalies, and recommends budget reallocations. Pulse goes generally available worldwide on Tuesday, May 5.</p>
+</div>
+<div class="paragraph">
+<p>Your success depends on hitting Day +30 targets of 200 paying customers, $2.4M in net-new Annual Recurring Revenue (ARR), and 30 named customer references. To get there, you must coordinate product, marketing, sales, customer success, finance, and legal, hold a Go/No-Go decision at Day -14, and brief the executive sponsor (the Chief Product Officer) along the way. Setting up a Claude project for this work — with standing instructions and a knowledge base — turns Claude into the Program Manager’s working assistant rather than a one-off chat tool.</p>
+</div>
+<div class="paragraph">
+<p>You will upload three reference files into the Project Knowledge Base:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>pulse_launch_plan.txt</strong> — the overall launch plan, including product description, target customer segments, pricing tiers, the milestone schedule from kickoff to Day +30, the stakeholder list, success metrics, and budget.</p>
+</li>
+<li>
+<p><strong>pulse_launch_raci.txt</strong> — the cross-functional RACI matrix mapping each launch deliverable to the function leads who are *R*esponsible, *A*ccountable, *C*onsulted, and *I*nformed. This is what Claude will reference when you ask about decision ownership.</p>
+</li>
+<li>
+<p><strong>pulse_launch_readiness_criteria.txt</strong> — the 21 Go/No-Go readiness criteria organized into five categories (product, go-to-market, customer success, pricing/legal, and executive alignment), with the 19-of-21 threshold required for a Go decision. This document will become the basis of the Artifact you build later in the lab.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_up_the_project">4.4. Set Up the Project</h3>
+<div class="paragraph">
+<p>You will create a new project, add standing instructions, and upload the three Pulse launch reference files to the project knowledge base.</p>
+</div>
+<div class="sect3">
+<h4 id="_create_the_project">4.4.1. Create the project</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the left sidebar, click <strong>Projects</strong>, then click <strong>+ New Project</strong>.</p>
+</li>
+<li>
+<p>Name the project something descriptive, for example, <em>Pulse Launch — May 5 GA</em>.</p>
+</li>
+<li>
+<p>Add a brief project description (this is for your organization only; Claude does not see project names or descriptions).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_add_project_instructions">4.4.2. Add project instructions</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inside the project, locate the project instructions area and click to edit.</p>
+</li>
+<li>
+<p>Paste in the following instructions, or adapt them to your own context.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example of project instructions:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>You are supporting the Launch Program Manager (LPM) for Meridian Analytics' Pulse
+product launch. The launch GA date is May 5, currently 90 days out.</p>
+</div>
+<div class="paragraph">
+<p>When responding:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the uploaded launch plan, RACI, and Go/No-Go readiness criteria as your primary source of truth. If something is not in those documents, say so explicitly.</p>
+</li>
+<li>
+<p>Lead with the bottom line, then supporting detail. Avoid hedging language.</p>
+</li>
+<li>
+<p>When discussing a decision, name the function lead who is Accountable per the RACI.</p>
+</li>
+<li>
+<p>For risks, name an owner and a target resolution date.</p>
+</li>
+<li>
+<p>Use crisp, executive-ready language. Bullet structure is preferred for status updates and decision memos.</p>
+</li>
+<li>
+<p>The audience is the LPM, who will often forward your output directly to function leads or the executive sponsor.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_upload_the_relevant_project_files">4.4.3. Upload the relevant project files</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate the <strong>Files</strong> section in the right side contextual panel (this right side panel now contains project details).</p>
+</li>
+<li>
+<p>Upload the three provided files: <strong>pulse_launch_plan.txt</strong>, <strong>pulse_launch_raci.txt</strong>, and <strong>pulse_launch_readiness_criteria.txt</strong>.</p>
+</li>
+<li>
+<p>Confirm all three files appear in the file area before proceeding; you should see thumbnails and filenames in the <strong>Files</strong> area of the right contextual panel.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_first_conversation_verify_context_application">4.5. First Conversation: Verify Context Application</h3>
+<div class="sect3">
+<h4 id="_start_a_new_conversation_inside_the_project">4.5.1. Start a new conversation inside the project</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The goal is to confirm that Claude applies your project instructions and draws on the uploaded files when answering.</p>
+</li>
+<li>
+<p>Here’s an example test prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Summarize what must be complete by the Day -45 milestone. Reference specific Go/No-Go criteria and identify the function lead Accountable for each.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_the_prompt_review_claudes_response_and_reflect">4.5.2. Submit the prompt, review Claude’s response, and reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Did Claude reference specific items from the uploaded readiness criteria, or did it generate generic answers?</p>
+</li>
+<li>
+<p>Did the response follow your instructions on tone, structure, and naming accountable owners?</p>
+</li>
+<li>
+<p>If anything looked wrong or invented, which document would have given Claude the correct information?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_second_conversation_verify_context_persistence">4.6. Second Conversation: Verify Context Persistence</h3>
+<div class="sect3">
+<h4 id="_inside_the_same_project_start_a_new_conversation">4.6.1. Inside the same project, start a <strong>new</strong> conversation</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clicking <strong>New Chat</strong> within the project (not at the top level).</p>
+</li>
+<li>
+<p>Ask a different question that builds on the launch context.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The goal here is to confirm that the project instructions and uploaded files apply automatically; you should not need to re-establish context.</p>
+</li>
+<li>
+<p>Here’s an example second-conversation prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>I just got off a call with the VP Sales. He’s worried about sales enablement timing. Draft a five-bullet brief I can send him this afternoon outlining what is currently planned, what is at risk, and what decision I need from him.</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_the_prompt_and_review_the_response_to_reflect">4.6.2. Submit the prompt and review the response to reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Did Claude maintain the Program Manager persona and tone established in your project instructions?</p>
+</li>
+<li>
+<p>Could you tell that Claude was drawing from the same knowledge base as in your first conversation?</p>
+</li>
+<li>
+<p>What advantage does this give you over starting from scratch in a standalone chat?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_an_initial_artifact">4.7. Build an Initial Artifact</h3>
+<div class="paragraph">
+<p>Now generate a reusable artifact tied to the launch. The Go/No-Go readiness criteria document is a natural fit for an interactive scorecard the Program Manager can use to track readiness over the final two weeks before launch. Unlike artifacts created inline in a chat, this artifact will be created from the standalone <strong>Artifacts</strong> area in the sidebar, where it lives as a persistent object you can return to anytime — independent of any project.</p>
+</div>
+<div class="sect3">
+<h4 id="_open_the_artifacts_area">4.7.1. Open the Artifacts area</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the left sidebar, click <strong>Artifacts</strong> under the main navigation.</p>
+</li>
+<li>
+<p>You will see a list of any artifacts you have previously created (you likely have none).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_start_a_new_artifact">4.7.2. Start a New Artifact</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click <strong>New Artifact</strong>.</p>
+</li>
+<li>
+<p>A category picker will open.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_choose_a_category_or_build_from_scratch">4.7.3. Choose a category or build from scratch</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Choose a category that resembles a tracker, checklist, or dashboard if one is available; or click <strong>Build from scratch</strong> if no category clearly fits.</p>
+</li>
+<li>
+<p>The artifact creation conversation will open.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_provide_the_source_content">4.7.4. Provide the source content</h4>
+<div class="paragraph">
+<p>Because the artifact creation flow opens a conversation outside your project, the readiness criteria file is not yet available here.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Upload <strong>pulse_launch_readiness_criteria.txt</strong> to this conversation using the <strong>"+"</strong> button or by dragging the file into the chat.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_and_submit_the_build_prompt">4.7.5. Create and submit the build prompt</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Here’s an example artifact prompt to enter into the conversation:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Build an interactive launch readiness scorecard. Use the uploaded readiness
+criteria file as the source. The scorecard should:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Display all  21 Go/No-Go criteria organized by the five categories from the
+readiness document</p>
+</li>
+<li>
+<p>Let me mark each criterion as Not Started, In Progress, or Complete</p>
+</li>
+<li>
+<p>Show a running count toward the 19-of-21 threshold required for Go</p>
+</li>
+<li>
+<p>Include a clear visual indicator (green / yellow / red) showing current
+Go/No-Go status</p>
+</li>
+<li>
+<p>Be styled cleanly enough to share with the executive sponsor"</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Submit the prompt.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Claude will generate the artifact in a dedicated panel alongside the conversation.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_confirm_the_new_artifact_appears_under_the_artifacts_header">4.7.6. Confirm the new artifact appears under the Artifacts header</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Once it is generated, return to the left sidebar.</p>
+</li>
+<li>
+<p>You should see the new artifact listed under <strong>Artifacts</strong> with the name you gave it (or a default name if you didn’t specify one).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This is what makes it persistent and reusable beyond this conversation.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reflect">4.7.7. Reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Does the artifact contain all 21 criteria, organized correctly across the five categories from the source document?</p>
+</li>
+<li>
+<p>Does the running count and the Go / No-Go indicator update correctly when you change a criterion’s status?</p>
+</li>
+<li>
+<p>Is it usable as-is, or does it need refinement?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits_4">4.8. Challenge Activity (If Time Permits)</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new version of your scorecard and explore Claude’s version history.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="_in_the_artifacts_conversation_panel_request_a_refinement">4.8.1. In the artifact’s conversation panel, request a refinement.</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Here’s an example refinement prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Add a notes field next to each criterion where I can paste a recovery plan or add a comment. The notes should be visible alongside the status.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Submit the prompt</p>
+</li>
+<li>
+<p>Watch Claude generate a <strong>new version</strong> of the artifact rather than replacing the original.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_explore_the_version_history">4.8.2. Explore the version history</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>At the top of the artifact panel, locate the version selector.</p>
+</li>
+<li>
+<p>Navigate back to the original artifact and forward to the new version</p>
+</li>
+<li>
+<p>Compare the two versions to confirm Claude built on the original rather than rebuilding from scratch</p>
+</li>
+<li>
+<p>Revert to the original version if you prefer it, then move forward again to the latest</p>
+</li>
+</ol>
+</div>
+<div class="markdown-alert markdown-alert-note">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-info"></i>&nbsp;Note
+      </p>
+      <p>based on how your artifact conversation unfolded, you may see more than two versions in the history. That is fine; just identify which is the original version and which is the refinement you just prompted for.</p>
+    </div>
+</div>
+<div class="sect3">
+<h4 id="_reflect_2">4.8.3. Reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>How does Claude indicate which version is currently active in the panel?</p>
+</li>
+<li>
+<p>When in your real work would you want to keep an earlier version of an artifact rather than overwrite it?</p>
+</li>
+<li>
+<p>If you wanted a <strong>third</strong> version that combined ideas from both, how would you prompt Claude to create it?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_4">4.9. Key Takeaways</h3>
+<div class="paragraph">
+<p>Projects turn Claude into a persistent workspace, not a one-off assistant:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Project instructions act as a standing system prompt for every chat in the project</p>
+</li>
+<li>
+<p>The knowledge base grounds Claude’s responses in your actual working documents</p>
+</li>
+<li>
+<p>Multiple conversations within a project share context automatically</p>
+</li>
+<li>
+<p>Artifacts are substantial, reusable assets, separate from chat output, discoverable in the sidebar, and shareable beyond the conversation</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<header><h2 id="_designing_ai_delegation">Designing AI Delegation</h2><p>Lab 5</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Identify risks specific to high-stakes AI delegation in business workflows</li>
+<li>Apply task-level reasoning to determine appropriate AI delegation vs human responsibility</li>
+<li>Design a structured human–AI workflow with validation and control points</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction_5">5.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 40 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will move from understanding AI capabilities to making practical decisions about how to use AI in your own work. You will evaluate a realistic business scenario, surface the risks that should shape your delegation decisions, and determine where AI adds value and where human judgment remains essential. The focus is on designing a controlled and trustworthy collaboration model.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview_5">5.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Identify the AI failure modes and risks that should shape AI delegation decisions in a hiring scenario</p>
+</li>
+<li>
+<p>Break a realistic business workflow into components suitable for delegation</p>
+</li>
+<li>
+<p>Classify each component along the spectrum from full AI delegation to human-only</p>
+</li>
+<li>
+<p>Design a workflow including validation checkpoints and human oversight</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scenario_2">5.3. Scenario</h3>
+<div class="paragraph">
+<p>You are a hiring manager at Northwind Logistics, a 1,200-employee U.S. third-party logistics company. You have an open role for a <em>Senior Operations Analyst</em>. This role is a mid-level individual contributor who will build dashboards, run cost analyses, and present findings to operations leadership. The salary range is $95K–$120K.</p>
+</div>
+<div class="paragraph">
+<p>You posted the role three weeks ago. The current state of the search:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>180 applications received</p>
+</li>
+<li>
+<p>6 weeks remaining before the budget reauthorization cycle locks the requisition</p>
+</li>
+<li>
+<p>Support team: a recruiter, a panel of four interviewers (you plus three team members), and HR for compliance and offer paperwork</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Anthropic classifies <strong>Employment</strong> as a high-risk domain in its Acceptable Use Policy, requiring a qualified human in the loop. In the United States, hiring decisions are also governed by Title VII, ADA, and ADEA — federal laws that create real legal liability for discriminatory outcomes, including those produced by automated systems.</p>
+</div>
+<div class="paragraph">
+<p>The hiring workflow has 10 subtasks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Refine the posted job description for clarity and inclusivity</p>
+</li>
+<li>
+<p>Screen the 180 resumes against role requirements; reduce to ~30 for recruiter review</p>
+</li>
+<li>
+<p>Draft personalized outreach messages to top candidates</p>
+</li>
+<li>
+<p>Coordinate phone screen scheduling across candidate, recruiter, and you</p>
+</li>
+<li>
+<p>Prepare role-specific questions for 30-minute phone screens</p>
+</li>
+<li>
+<p>Conduct phone screens</p>
+</li>
+<li>
+<p>Synthesize feedback notes from the four panel interviewers per finalist</p>
+</li>
+<li>
+<p>Research market salary and recommend an offer figure</p>
+</li>
+<li>
+<p>Make the final hire/no-hire decision</p>
+</li>
+<li>
+<p>Draft personalized rejection emails to candidates not selected</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_identify_risks_and_failure_modes">5.4. Identify Risks and Failure Modes</h3>
+<div class="paragraph">
+<p>Before classifying any subtask for AI delegation, surface the risks that should shape your decisions. Do this thinking <em>before</em> you decide what to delegate, not after.</p>
+</div>
+<div class="sect3">
+<h4 id="_identify_the_three_subtasks_where_a_mistake_would_be_hardest_to_recover_from">5.4.1. Identify the three subtasks where a mistake would be hardest to recover from</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Think about mistakes that are operationally, reputationally, or legally consequential.</p>
+</li>
+<li>
+<p>Capture your thoughts on paper or in a document.</p>
+</li>
+<li>
+<p>For each of the three subtasks, write a one-line rationale for why a failure there would be particularly consequential.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_stress_test_your_thinking">5.4.2. Stress-test your thinking</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open Claude Chat in a new conversation</p>
+</li>
+<li>
+<p>Stress-test example prompt:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>I’m a hiring manager evaluating a 10-step hiring workflow for AI delegation. Before I decide what to delegate, what are the most consequential failure modes I should be aware of in AI-assisted hiring? Name concrete risks tied to specific subtasks, and flag any that create legal liability — not just operational rework.</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_review_claudes_response_2">5.4.3. Review Claude’s response</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Capture the top three to five risks.</p>
+</li>
+<li>
+<p>Compare them to the subtasks you identified.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Which risks were obvious to you before asking? Which were not?</p>
+</li>
+<li>
+<p>Did Claude flag any legal liabilities you hadn’t considered?</p>
+</li>
+<li>
+<p>Are any of the highest-risk subtasks ones that feel easy to delegate but actually aren’t?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_decompose_and_classify_subtasks">5.5. Decompose and Classify Subtasks</h3>
+<div class="sect3">
+<h4 id="_assign_each_of_the_10_subtasks_into_one_of_four_delegation_categories">5.5.1. Assign each of the 10 subtasks into one of four delegation categories.</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Manually (i.e. using your human brain) assign a delegation category to each subtask.</p>
+</li>
+<li>
+<p>The four delegation categories:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Automate (Full AI delegation)</strong> — Claude executes the task; you spot-check the results</p>
+</li>
+<li>
+<p><strong>Augment (AI-assisted, human reviewed)</strong> — Claude drafts; you review and approve before any external action</p>
+</li>
+<li>
+<p><strong>Assist (Human-led, AI-assisted)</strong> — You execute; Claude helps you research or stress-test</p>
+</li>
+<li>
+<p><strong>Avoid (Human only)</strong> — No AI involvement</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Use the risks you surfaced in the previous activity to inform every classification.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_simple_three_column_table_on_paper_or_in_a_document">5.5.2. Create a simple three-column table on paper or in a document</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use this structure:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-text hljs">| Subtask                          | Category              | One-line rationale    |
+|----------------------------------|-----------------------|-----------------------|
+| 1. Refine job description         |                       |                       |
+| 2. Resume screening              |                       |                       |
+| 3. Candidate outreach drafts     |                       |                       |
+| 4. Phone screen scheduling       |                       |                       |
+| 5. Phone screen question prep    |                       |                       |
+| 6. Conducting phone screens      |                       |                       |
+| 7. Synthesizing panel feedback   |                       |                       |
+| 8. Salary benchmarking           |                       |                       |
+| 9. Final hire/no-hire decision   |                       |                       |
+| 10. Drafting rejection emails    |                       |                       |</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Work through all 10 subtasks. For each, pick a category and revise your <strong>one-line rationale</strong> if needed, so that it ties back to a specific risk or to the level of human judgment the task requires.</p>
+</li>
+<li>
+<p>Once you have finished, your completed table will likely have:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Two or three subtasks in the <strong>Automate</strong> category</p>
+</li>
+<li>
+<p>At least two subtasks in the <strong>Avoid</strong> category (steps involving protected-class data or final hiring decisions)</p>
+</li>
+<li>
+<p>And a mix of <strong>Augment</strong> and <strong>Assist</strong> for the remaining subtasks</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Identify your <strong>two or three most uncertain classifications</strong> — the ones where a category was genuinely hard to pick.</p>
+</li>
+<li>
+<p>Stress-test each one with Claude:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>I’m classifying [subtask] as [category] because [your rationale]. Help me stress-test this — what could go wrong with that classification, what risks am I under-weighting, and what would you change? Here are the definitions of each category: &lt;paste category descriptions here&gt;</p>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optional_in_line_challenge_stress_test_all_subtask_classifications_at_once">5.5.3. Optional in-line challenge: Stress-test all subtask classifications at once</h4>
+<div class="paragraph">
+<p>Rather than use the example prompt above that stress-tests each subtask "one at a time", you could conduct the stress-test on all subtasks at once</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create one prompt that includes the entire table of subtasks, your human-assigned delegation category, your rationale, as well as the category descriptions</p>
+</li>
+<li>
+<p>In that single prompt, ask Claude to stress-test the entire table</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>An example prompt to achieve this challenge (i.e. "the challenge solution") is provided at the end of this lab (scroll down)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_review_and_reflect">5.5.4. Review and reflect:</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adjust your classifications based on Claude’s pushback, or hold your position with a sharper rationale.</p>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Which subtasks were easiest to categorize? Which forced the most thought?</p>
+</li>
+<li>
+<p>Did Claude’s stress-test push you to change any classifications?</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Looking at your final mix:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Does any single category dominate?</p>
+</li>
+<li>
+<p>Is that the right balance for a high-risk domain like hiring?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits_add_human_checkpoints_to_the_workflow">5.6. Challenge Activity (If Time Permits): Add Human Checkpoints to the Workflow</h3>
+<div class="paragraph">
+<p>You will turn your classifications into a step-by-step workflow that someone could actually follow. <strong>The key principle: any time AI produces an output that affects a candidate, a human verifies it before the workflow continues.</strong></p>
+</div>
+<div class="sect3">
+<h4 id="_for_each_step_in_the_workflow_capture_four_pieces_of_information">5.6.1. For each step in the workflow, capture four pieces of information:</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Step:</strong> the subtask</p>
+</li>
+<li>
+<p><strong>Owner:</strong> AI, Human, or Both</p>
+</li>
+<li>
+<p><strong>Output:</strong> what gets produced</p>
+</li>
+<li>
+<p><strong>Checkpoint:</strong> who reviews the output before the next step, and what they look for</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Here are two example steps to model your responses on:</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Step 1: Refine the job description
+  Owner: Both
+  Output: AI drafts a revised job description with clearer requirements and inclusive language
+  Checkpoint: you read and approve the revised job description before it is re-posted
+
+Step 2: Initial resume screening
+  Owner: AI
+  Output: a shortlist of ~30 candidates from the 180 applicants
+  Checkpoint: recruiter spot-checks 10% of rejected resumes for qualified candidates</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_walk_through_all_10_subtasks_in_order">5.6.2. Walk through all 10 subtasks in order</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Fill in the four fields for each.</p>
+</li>
+<li>
+<p>For <strong>Human only</strong> subtasks, you can write a single line summarizing the step and skip the Checkpoint field.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_your_finished_workflow_to_claude_for_a_stress_test">5.6.3. Submit your finished workflow to Claude for a stress-test</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Example prompt for stress-test:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Here is my proposed human–AI workflow and AI delegation plan for filling the Senior Operations Analyst role: &lt;paste your workflow&gt;. Review it for legal compliance risks, potential bias amplification, and steps where AI delegation should be reconsidered. Be specific about which steps are of concern and why.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Note Claude’s top one or two concerns and decide whether to add a checkpoint, change an owner, or accept the risk.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reflect_3">5.6.4. Reflect</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>How many human checkpoints did you end up with?</p>
+</li>
+<li>
+<p>If you had to remove one checkpoint to save time, which would you remove? Which would you keep no matter what?</p>
+</li>
+<li>
+<p>Could you defend this workflow to your General Counsel?</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_5">5.7. Key Takeaways</h3>
+<div class="paragraph">
+<p>Delegation is not all-or-nothing; it is per-subtask:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Risk identification comes <strong>before</strong> delegation — you cannot delegate well without knowing what could go wrong</p>
+</li>
+<li>
+<p>Different subtasks within the same workflow demand different levels of AI involvement</p>
+</li>
+<li>
+<p>High-risk domains require a qualified human in the loop by Anthropic policy and often by law</p>
+</li>
+<li>
+<p>The most dangerous workflows are those with no human checkpoint between AI output and external action</p>
+</li>
+<li>
+<p>Good delegation design makes mistakes recoverable, not just preventable</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_solution_for_optional_in_line_challenge_activity_stress_test_entire_subtask_table_at_once">5.8. Solution for Optional In-Line Challenge Activity: Stress-test Entire SubTask Table at Once</h3>
+<div class="paragraph">
+<p>Here is an example prompt that will stress-test your entire table of subtasks and human-assigned AI delegation categories:</p>
+</div>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Review the following table of subtasks and AI delegation category assignments.</p>
+</div>
+<div class="paragraph">
+<p>Your job is to stress-test the classifications, not simply validate them.</p>
+</div>
+<div class="paragraph">
+<p>For each subtask:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Evaluate whether the assigned delegation category is appropriate</p>
+</li>
+<li>
+<p>Identify what could go wrong with the classification</p>
+</li>
+<li>
+<p>Identify risks, blind spots, or assumptions the student may be under-weighting</p>
+</li>
+<li>
+<p>Flag any legal, ethical, quality-control, confidentiality, accuracy, or accountability concerns</p>
+</li>
+<li>
+<p>Consider whether the human oversight level is sufficient for the task risk level</p>
+</li>
+<li>
+<p>Recommend a different category if appropriate and explain why</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then evaluate the workflow as a whole:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Are there inconsistencies across the classifications?</p>
+</li>
+<li>
+<p>Are some tasks over-delegated to AI?</p>
+</li>
+<li>
+<p>Are some tasks unnecessarily restricted from AI support?</p>
+</li>
+<li>
+<p>Are there missing review checkpoints or escalation points?</p>
+</li>
+<li>
+<p>Does the delegation strategy appropriately match task complexity, uncertainty, and potential consequences of failure?</p>
+</li>
+<li>
+<p>Where is the workflow most vulnerable to automation bias or human complacency?</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Use the following delegation categories when evaluating the assignments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Automate (Full AI delegation) — Claude executes the task; human spot-checks results</p>
+</li>
+<li>
+<p>Augment (AI-assisted, human reviewed) — Claude drafts or performs work; human reviews and approves before external action</p>
+</li>
+<li>
+<p>Assist (Human-led, AI-assisted) — Human executes the task; Claude supports with research, brainstorming, drafting, or stress-testing</p>
+</li>
+<li>
+<p>Avoid (Human only) — No AI involvement</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>After your analysis:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Identify the 2–3 highest-risk classifications</p>
+</li>
+<li>
+<p>Recommend the single most important improvement to the delegation strategy</p>
+</li>
+<li>
+<p>Summarize the overall strengths and weaknesses of the workflow design</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is my table of subtasks and human-assigned AI delegation categories:</p>
+</div>
+<div class="paragraph">
+<p>&lt;Insert table here&gt;</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<header><h2 id="_detecting_and_mitigating_ai_failure_modes">Detecting and Mitigating AI Failure Modes</h2><p>Lab 6</p><div class="openblock objectives">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>Identify common AI failure modes in generated outputs</li>
+<li>Practice verifying claims against a grounding source document</li>
+<li>Revise prompts and inputs to reduce failure modes and increase reliability</li>
+</ul>
+</div>
+</div>
+</div></header>
+<div class="sectionbody">
+
+<div class="sect2">
+<h3 id="_introduction_6">6.1. Introduction</h3>
+<div class="paragraph">
+<p>Estimated time: 30 minutes</p>
+</div>
+<div class="paragraph">
+<p>In this lab, you will practice diagnosing and correcting issues in AI-generated output. Rather than treating outputs as answers, you will evaluate them as drafts that may contain specific, predictable failure modes. You will then refine prompts and context to improve the quality and reliability of the results.</p>
+</div>
+<div class="markdown-alert markdown-alert-note">
+      <p class="markdown-alert-title">
+        <i class="mr-2 ph ph-info"></i>&nbsp;Note
+      </p>
+      <p>This lab requires files titled <code>actual_cascade_q3_earnings.txt</code> and <code>cascade_ai_generated_brief.txt</code> that can be found in your lab kit (i.e. lab supporting files). Confirm you have access to these files before beginning this lab. If you can’t locate them, contact your instructor.</p>
+    </div>
+</div>
+<div class="sect2">
+<h3 id="_lab_overview_6">6.2. Lab Overview</h3>
+<div class="paragraph">
+<p>In this lab, you will complete the following activities:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Review an AI-generated output containing 2-3 embedded issues</p>
+</li>
+<li>
+<p>Identify instances of hallucination, incorrect citations, or other output failure modes</p>
+</li>
+<li>
+<p>Revise the prompt or context to mitigate the identified failures and improve results</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scenario_3">6.3. Scenario</h3>
+<div class="paragraph">
+<p>You are an equity research analyst at a mid-sized investment firm. Your portfolio managers expect short, accurate briefings on companies they hold or are tracking. This morning, <strong>Cascade Cloud Systems (NASDAQ: CCSY)</strong> released its Q3 FY2026 earnings, and you used Claude to draft a quick brief for the morning meeting.</p>
+</div>
+<div class="paragraph">
+<p>Two source materials are provided for this lab:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>actual_cascade_q3_earnings.txt</code> — the actual earnings press release excerpt from Cascade Cloud Systems. This is the source of truth.</p>
+</li>
+<li>
+<p>The AI-generated brief shown below and also provided in <code>cascade_ai_generated_brief.txt</code>. This is the draft Claude produced when you submitted your initial prompt. This brief contains <strong>three embedded failure modes</strong> you will need to identify.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For context, here is the original prompt that produced the brief:</p>
+</div>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Summarize the attached Q3 earnings report and write a one-page briefing for portfolio managers. Include the key financial metrics, what management said about strategy, and any important context analysts are flagging.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>And here is the AI-generated brief that came back. As noted, you can also find this AI-generated brief in a txt file titled <code>cascade_ai_generated_brief.txt</code> located in the same directory as <code>actual_cascade_q3_earnings.txt</code>:</p>
+</div>
+<div class="openblock prompt-response">
+<div class="content">
+<div class="paragraph">
+<p>Cascade Cloud Systems — Q3 FY2026 Briefing</p>
+</div>
+<div class="paragraph">
+<p>Cascade Cloud Systems delivered strong third quarter results, with total revenue of $187.4M, up 22% year-over-year. Subscription revenue grew 25%
+to $171.2M, reflecting healthy demand for the company’s enterprise cloud infrastructure platform.</p>
+</div>
+<div class="paragraph">
+<p>The company reported operating income of $24.1M and an EBITDA margin of 28.5%, marking a meaningful expansion from the prior year period. Customer
+metrics were also strong: 412 net new customers were added, bringing the total customer count to 8,940, with net revenue retention of 118%.</p>
+</div>
+<div class="paragraph">
+<p>In the earnings release, CEO Marcus Chen stated that the company expects to surpass $1 billion in annual revenue by the end of FY2027, citing
+continued strong execution against strategic priorities. According to coverage in Bloomberg on October 28, sell-side analysts viewed the
+quarter as a meaningful upside surprise given concerns about enterprise IT spending in the prior quarter.</p>
+</div>
+<div class="paragraph">
+<p>Forward guidance for Q4 calls for revenue of $198M-$202M, representing 18-20% year-over-year growth, with non-GAAP operating margin of
+approximately 14%.</p>
+</div>
+<div class="paragraph">
+<p>Recommendation: Maintain Buy rating. The combination of accelerating top-line growth, margin expansion, and an expanding customer base
+supports our constructive view.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This brief looks polished. You are about to forward it to your portfolio managers — but a colleague catches you and reminds you to verify the output against the actual source first.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_identify_the_failure_modes">6.4. Identify the Failure Modes</h3>
+<div class="sect3">
+<h4 id="_open_actual_cascade_q3_earnings_txt">6.4.1. Open <code>actual_cascade_q3_earnings.txt</code></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Read it side by side with the AI-generated brief.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_find_three_claims_in_the_brief_that_are_not_supported_by_the_source_document">6.4.2. Find <strong>three claims in the brief that are not supported by the source document</strong>.</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Look for any metric, quote, or external citation in the brief that you cannot match word-for-word against the source</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Even if it is a common metric or a familiar-sounding source</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_for_each_issue_note">6.4.3. For each issue note</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>The claim</strong> — exactly what the brief says</p>
+</li>
+<li>
+<p><strong>Why it is wrong</strong> — what the source actually says (or does not say)</p>
+</li>
+<li>
+<p><strong>The failure mode category</strong> — choose from the list below</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Failure mode categories to consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Fabricated metric</strong> — a specific number or financial measure that does not appear in the source</p>
+</li>
+<li>
+<p><strong>Mis-attributed or invented quote</strong> — words or claims attributed to a person who did not say them</p>
+</li>
+<li>
+<p><strong>Fabricated citation</strong> — a source, article, or external reference that does not exist or is not in the provided material</p>
+</li>
+<li>
+<p><strong>Stale or out-of-context information</strong> — information that may be true elsewhere but is not in the source provided</p>
+</li>
+<li>
+<p><strong>Confidently wrong inference</strong> — a logical or factual conclusion that overreaches what the source supports</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_once_you_have_your_three_findings_ask_claude_to_verify_your_work">6.4.4. Once you have your three findings, ask Claude to verify your work</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Upload both the actual cascade earnings report and the AI generated brief to the chat</p>
+</li>
+<li>
+<p>Submit a verification prompt</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here’s an example prompt you can use:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>I’ve identified the following three issues in an AI-generated earnings brief, compared against the actual earnings report. For each issue, tell me whether you agree, and identify any failure modes I may have missed: &lt;paste your three findings&gt;</p>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Reflect:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Which failure was easiest to spot?</p>
+</li>
+<li>
+<p>Which one would you most likely have missed if you weren’t looking carefully?</p>
+</li>
+<li>
+<p>Which failure would have caused the most damage if you had forwarded the brief to portfolio managers?</p>
+</li>
+<li>
+<p>In your own work, which of these failure modes are you most likely to encounter?</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>At the end of this lab you will find the "solution" with the three issues identified. Compare your findings to the solution.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_revise_the_prompt_to_prevent_the_failures">6.5. Revise the Prompt to Prevent the Failures</h3>
+<div class="paragraph">
+<p>The original prompt was loose enough to invite the failures you just identified. Phrases like <em>"any important context analysts are flagging"</em> implicitly invited Claude to look beyond the document. Now you will rewrite the prompt to ground Claude strictly in the source.</p>
+</div>
+<div class="sect3">
+<h4 id="_compose_a_revised_prompt_that">6.5.1. Compose a revised prompt that</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Explicitly restricts Claude to the uploaded document</p>
+</li>
+<li>
+<p>Tells Claude what to do when information is <strong>not</strong> in the document (rather than guessing or inferring)</p>
+</li>
+<li>
+<p>Forbids external citations or references</p>
+</li>
+<li>
+<p>Specifies an output format that makes unsupported claims harder to slip in</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here is an example of a revised prompt to model on, or adapt directly:</p>
+<div class="openblock prompt">
+<div class="content">
+<div class="paragraph">
+<p>Using ONLY the content of the attached earnings release, draft a one-page briefing
+for portfolio managers. Apply these rules strictly:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Do not include any metric, statement, or data point not explicitly present in the document. If a common metric (e.g., EBITDA margin) is not disclosed, do not estimate or infer it.</p>
+</li>
+<li>
+<p>Quote management commentary verbatim or not at all. Do not paraphrase quotes in ways that change meaning, and do not attribute statements to executives that are not in the document.</p>
+</li>
+<li>
+<p>Do not cite or refer to external sources, analyst reports, or news coverage. The document is the only source.</p>
+</li>
+<li>
+<p>For each claim in the briefing, the source must be traceable to a specific line in the document.</p>
+</li>
+<li>
+<p>If you would normally include something but the document does not support it, write 'Not disclosed in source' instead.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_submit_your_revised_prompt_and_review_the_output">6.5.2. Submit your revised prompt and review the output</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open Claude Chat in a new conversation and upload <code>actual_cascade_q3_earnings.txt</code>.</p>
+</li>
+<li>
+<p>Submit your revised prompt</p>
+</li>
+<li>
+<p>Compare the new brief against the original flawed brief</p>
+</li>
+<li>
+<p>Reflect and look specifically for:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Whether the EBITDA margin claim, the $1B revenue statement, and the Bloomberg citation are all gone</p>
+</li>
+<li>
+<p>Whether anything appears as "Not disclosed in source" — if so, that is a feature, not a bug</p>
+</li>
+<li>
+<p>Whether the new brief is still useful, or whether the constraints made it too thin</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_challenge_activity_if_time_permits_5">6.6. Challenge Activity (If Time Permits)</h3>
+<div class="paragraph">
+<p>Try to break your revised prompt. In the same conversation, ask Claude a question the document cannot answer — for example: <em>"What was Cascade’s Q2 FY2026 revenue, and how does this quarter compare?"</em> The Q2 number is not in the document.</p>
+</div>
+<div class="paragraph">
+<p>A well-grounded prompt should make Claude refuse to guess or fabricate. If Claude invents a number, your prompt still has a gap. If Claude says something like "Q2 FY2026 revenue is not disclosed in the source document," your grounding is working.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_takeaways_6">6.7. Key Takeaways</h3>
+<div class="paragraph">
+<p>Verification is non-negotiable for high-stakes AI output:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Hallucinations rarely look like obvious mistakes</p>
+</li>
+<li>
+<p>Loose prompts invite confabulation; tight prompts with explicit grounding rules suppress it</p>
+</li>
+<li>
+<p>A useful test of a grounded prompt is whether Claude refuses to answer questions the document cannot answer</p>
+</li>
+<li>
+<p>For high-risk professional output, source verification before forwarding is mandatory not optional</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_solution_failure_modes_identified_and_explained">6.8. Solution - Failure Modes Identified and Explained</h3>
+<div class="paragraph">
+<p>Here are the <strong>three planted failures</strong> in the AI-generated brief. Each is a different failure mode category. All three are deliberately <strong>plausible</strong> — none looks obviously wrong on first reading. That is the point.</p>
+</div>
+<div class="sect3">
+<h4 id="_failure_1_ebitda_margin_of_28_5">6.8.1. Failure 1: EBITDA margin of 28.5%</h4>
+<div class="paragraph">
+<p><strong>The claim in the brief:</strong></p>
+</div>
+<div class="paragraph">
+<p><em>"The company reported operating income of $24.1M and an EBITDA margin of 28.5%, marking a meaningful expansion from the prior year period."</em></p>
+</div>
+<div class="paragraph">
+<p><strong>Why it is wrong:</strong></p>
+</div>
+<div class="paragraph">
+<p>The source press release reports operating income of $24.1M, but it does <strong>not</strong> disclose EBITDA at all. The 28.5% figure is fabricated. Search the source for the term "EBITDA" — it does not appear.</p>
+</div>
+<div class="paragraph">
+<p><strong>Failure mode category:</strong> Fabricated metric</p>
+</div>
+<div class="paragraph">
+<p><strong>Why this one is the trickiest to catch:</strong></p>
+</div>
+<div class="paragraph">
+<p>EBITDA is such a routine metric in earnings reporting that a reader can easily skim past it. The 28.5% figure is also plausible — for a SaaS company at this revenue scale, a high-20s EBITDA margin is in the realistic range. Plausibility, however, is not truth.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_failure_2_1b_revenue_target_attributed_to_the_ceo">6.8.2. Failure 2: $1B revenue target attributed to the CEO</h4>
+<div class="paragraph">
+<p><strong>The claim in the brief:</strong></p>
+</div>
+<div class="paragraph">
+<p><em>"In the earnings release, CEO Marcus Chen stated that the company expects to surpass $1 billion in annual revenue by the end of FY2027, citing continued strong execution against strategic priorities."</em></p>
+</div>
+<div class="paragraph">
+<p><strong>Why it is wrong:</strong></p>
+</div>
+<div class="paragraph">
+<p>Marcus Chen’s actual quote in the source is about three operational priorities: closing the top 50 enterprise pipeline opportunities, completing the integration of DataNexus, and continuing to invest in platform security. He says <strong>nothing</strong> about $1 billion in revenue, FY2027, or any specific revenue target.</p>
+</div>
+<div class="paragraph">
+<p><strong>Failure mode category:</strong> Misattributed or invented quote</p>
+</div>
+<div class="paragraph">
+<p><strong>Why this one is the highest-consequence failure:</strong></p>
+</div>
+<div class="paragraph">
+<p>Forward-looking financial statements attributed to a CEO can move a stock and create regulatory exposure. Putting words in an executive’s mouth — especially specific revenue targets and time frames — is one of the most consequential failure modes in financial AI output. A portfolio manager acting on this fabricated guidance could face real financial and reputational harm.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_failure_3_bloomberg_article_on_october_28">6.8.3. Failure 3: Bloomberg article on October 28</h4>
+<div class="paragraph">
+<p><strong>The claim in the brief:</strong></p>
+</div>
+<div class="paragraph">
+<p><em>"According to coverage in Bloomberg on October 28, sell-side analysts viewed the quarter as a meaningful upside surprise given concerns about enterprise IT spending in the prior quarter."</em></p>
+</div>
+<div class="paragraph">
+<p><strong>Why it is wrong:</strong></p>
+</div>
+<div class="paragraph">
+<p>There is no Bloomberg coverage cited or referenced anywhere in the source. The source is the press release alone — it contains no analyst commentary, no external articles, no third-party context. The Bloomberg citation, the October 28 date, and the analyst sentiment are <strong>all</strong> fabricated.</p>
+</div>
+<div class="paragraph">
+<p><strong>Failure mode category:</strong> Fabricated citation</p>
+</div>
+<div class="paragraph">
+<p><strong>Why this one is dangerous:</strong></p>
+</div>
+<div class="paragraph">
+<p>A fabricated citation gives the reader false confidence that an external source has been consulted. It also exposes the analyst to embarrassment if a portfolio manager tries to follow up on the cited article and cannot find it.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+  
+const setTheme = (theme) => {
+  if (theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
+  }
+};
+
+// Check for saved theme or system preference on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  setTheme('dark');
+}
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.hasAttribute('data-theme');
+  setTheme(isDark ? 'light' : 'dark');
+});
+
+// TOC Highlight and ScrollSpy Logic
+const tocLinks = document.querySelectorAll('.toc-wrapper a');
+const sections = document.querySelectorAll('h2[id], h3[id]');
+const sidebar = document.querySelector('aside');
+
+const removeActiveClasses = () => {
+  tocLinks.forEach(link => {
+    link.classList.remove('active');
+    link.classList.remove('active-parent');
+  });
+};
+
+const observerOptions = {
+  root: null,
+  rootMargin: '-10% 0px -75% 0px', 
+  threshold: 0
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      const activeLink = document.querySelector(`.toc-wrapper a[href="#${id}"]`);
+      
+      if (activeLink) {
+        removeActiveClasses();
+        activeLink.classList.add('active');
+
+        // Logic to highlight the Top-Level Parent
+        const parentList = activeLink.closest('.sectlevel2');
+        if (parentList) {
+            // If we are in a sub-menu, find the main link for this section
+            const topLevelLink = parentList.parentElement.querySelector(':scope > a');
+            if (topLevelLink) {
+                topLevelLink.classList.add('active-parent');
+            }
+        }
+        
+        // Ensure sidebar visibility
+        const linkRect = activeLink.getBoundingClientRect();
+        const sidebarRect = sidebar.getBoundingClientRect();
+        if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
+          activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => observer.observe(section));
+
+// Collapsible TOC Logic with Arrow Animation
+const plusIcons = document.querySelectorAll('.toc-plus-icon');
+
+plusIcons.forEach(icon => {
+  icon.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const parentLi = icon.closest('li');
+    const subLevel = parentLi.querySelector('.sectlevel2');
+
+    if (subLevel) {
+      const isExpanded = subLevel.classList.contains('is-visible');
+      
+      if (isExpanded) {
+        subLevel.classList.remove('is-visible');
+        parentLi.classList.remove('is-expanded'); // Animates arrow back to right
+      } else {
+        subLevel.classList.add('is-visible');
+        parentLi.classList.add('is-expanded');    // Animates arrow to down
+      }
+    }
+  });
+});
+  </script>
+
+</body></html>

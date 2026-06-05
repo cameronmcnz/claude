@@ -1,0 +1,94 @@
+Pulse Launch — Cross-Functional RACI
+
+Roles:
+- PM: Pulse Product Manager
+- ENG: Engineering Lead
+- PMM: Product Marketing Manager
+- DG: Demand Gen Lead
+- SE: Sales Enablement Lead
+- VS: VP Sales
+- CS: VP Customer Success
+- FIN: VP Finance
+- LGL: General Counsel
+- CPO: Chief Product Officer (Executive Sponsor)
+
+Format: R = Responsible, A = Accountable, C = Consulted, I = Informed
+
+Pricing finalization
+- A: FIN
+- R: PMM
+- C: VS, CS
+- I: CPO, PM
+
+Messaging and positioning
+- A: PMM
+- R: PM
+- C: VS, CS
+- I: CPO
+
+Sales enablement materials
+- A: SE
+- R: PMM
+- C: PM
+- I: VS
+
+Demo environment and training
+- A: PM
+- R: ENG, SE
+- C: CS
+- I: VS
+
+Beta program management
+- A: PM
+- R: CS
+- C: ENG
+- I: PMM
+
+Press, analyst, and PR plan
+- A: PMM
+- R: DG
+- C: CPO
+- I: PM, VS
+
+Documentation and onboarding content
+- A: CS
+- R: PMM
+- C: SE
+- I: PM
+
+Pricing operationalization in billing system
+- A: FIN
+- R: ENG
+- C: PM
+- I: CS
+
+Legal review of contracts and terms
+- A: LGL
+- R: FIN
+- C: PM
+- I: PMM
+
+Go/No-Go decision
+- A: CPO
+- R: PM
+- C: All function leads
+- I: All teams
+
+Launch day execution
+- A: PM
+- R: All function leads
+- C: CPO
+- I: Company
+
+Post-launch review at Day +30
+- A: PM
+- R: All function leads
+- C: CPO
+- I: Company
+
+Notes:
+- PM is Accountable for the overall launch program but Responsible only for
+  launch-day execution and the Day +30 post-launch review.
+- CPO is the only Accountable role for Go/No-Go.
+- Any deliverable not on this list defaults to: Accountable to PM, Responsible
+  to the relevant function lead.

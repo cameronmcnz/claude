@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: finance
 function: financial-statements
-order: 4
+order: 0
 noindex: true
 ---
 
@@ -19,7 +19,7 @@ Takes trial balance data, account summaries, or a list of period transactions an
 ---
 
 <div class="text-center mb-4">
-  <img src="{{ '/section-07/plugin-examples/everclean-dishwasher-ad.jpg' | relative_url }}" 
+  <img src="{{ site.baseurl }}/assets/images/everclean/everclean-dishwasher-ad.jpg" 
        alt="EverClean dishwasher — the product behind the numbers" 
        class="img-fluid rounded shadow-sm" style="max-height:320px;">
 </div>

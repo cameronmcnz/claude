@@ -19,7 +19,7 @@ Give it a content type, a topic, and an audience — and it drafts polished, on-
 ---
 
 <div class="text-center mb-4">
-  <img src="{{ '/section-07/plugin-examples/everclean-dishwasher-ad.jpg' | relative_url }}" 
+  <img src="{{ site.baseurl }}/assets/images/everclean/everclean-dishwasher-ad.jpg" 
        alt="EverClean dishwasher advertisement" 
        class="img-fluid rounded shadow-sm" style="max-height:300px;">
 </div>

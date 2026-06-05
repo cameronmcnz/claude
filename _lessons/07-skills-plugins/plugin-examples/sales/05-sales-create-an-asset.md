@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: sales
 function: create-an-asset
-order: 5
+order: 0
 noindex: true
 ---
 
@@ -19,7 +19,7 @@ Takes your product, audience, and sales context and produces a complete, ready-t
 ---
 
 <div class="text-center mb-4">
-  <img src="{{ '/section-07/plugin-examples/everclean-dishwasher-ad.jpg' | relative_url }}" 
+  <img src="{{ site.baseurl }}/assets/images/everclean/everclean-dishwasher-ad.jpg" 
        alt="EverClean — the product the asset sells" 
        class="img-fluid rounded shadow-sm" style="max-height:300px;">
 </div>

@@ -6,7 +6,7 @@ section_title: "Skills, Plugins & Chat Power Features"
 section_slug: "07-skills-plugins"
 plugin: marketing
 function: campaign-plan
-order: 3
+order: 0
 noindex: true
 ---
 
@@ -19,7 +19,7 @@ Turns a product, goal, and audience into a full campaign brief — messaging pil
 ---
 
 <div class="text-center mb-4">
-  <img src="{{ '/section-07/plugin-examples/everclean-mother-son.jpg' | relative_url }}" 
+  <img src="{{ site.baseurl }}/assets/images/everclean/everclean-mother-son.jpg" 
        alt="EverClean lifestyle — the kitchen without the daily unloading ritual" 
        class="img-fluid rounded shadow-sm" style="max-height:300px;">
 </div>

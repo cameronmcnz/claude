@@ -1,0 +1,43 @@
+Pulse Launch — Go/No-Go Readiness Criteria
+
+The Launch Program Manager presents these criteria to the Chief Product Officer
+at the Day -14 Go/No-Go review. Each criterion must reach the stated threshold;
+any criterion below threshold requires either a recovery plan with a named
+owner and date, or an executive override.
+
+Category 1: Product Readiness (5 criteria)
+- All P0 and P1 bugs from beta closed (threshold: 100% closed)
+- Demo environment stable and reflects launch-day functionality (threshold:
+  zero crashes in 14 consecutive days)
+- Production load testing passes at 3x projected day-one volume
+- Telemetry and observability instrumentation deployed and verified
+- Rollback procedure tested end-to-end and documented
+
+Category 2: Go-to-Market Readiness (5 criteria)
+- Final messaging and positioning approved by CPO
+- Sales enablement materials shipped: 1-pager, deck, demo script, ROI calculator
+- Top 20 enterprise reps complete certification (threshold: 90% pass rate)
+- Demand gen campaigns scheduled and creative approved for Day 0 to Day +30
+- Press, analyst briefings, and partner co-marketing calendar locked
+
+Category 3: Customer Success and Support Readiness (4 criteria)
+- Onboarding playbook complete with named CSM owner per launch tier
+- Support team trained; tier-1 macros and KB articles published
+- Beta cohort feedback incorporated; named references signed (threshold: 6
+  signed references)
+- Customer health monitoring dashboard live for launch cohort
+
+Category 4: Pricing, Billing, and Legal Readiness (4 criteria)
+- Pricing operationalized end-to-end: quote-to-cash flow tested
+- Standard contracts and order forms reviewed and approved by Legal
+- International billing (currencies, taxation) verified for top 5 markets
+- Discounting policy and approval matrix communicated to Sales
+
+Category 5: Executive and Cross-Functional Alignment (3 criteria)
+- All function leads sign Go/No-Go pre-read 48 hours before review
+- Open risks logged with owners and target resolution dates
+- Day +30 post-launch review scheduled and on calendars
+
+Total criteria: 21
+Threshold for Go: 19 of 21 met OR all unmet criteria covered by approved
+recovery plans.
