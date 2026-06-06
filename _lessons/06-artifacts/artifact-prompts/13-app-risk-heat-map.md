@@ -12,6 +12,10 @@ noindex: true
 
 An interactive 5×5 risk heat map for entering, scoring, and visualizing project or device risks by likelihood and impact.
 
+## Live Artifact
+
+<iframe src="https://claude.site/public/artifacts/40bb216c-f1ad-4e4d-addb-e7ab28841b37/embed" title="Healthcare Device Risk Heat Map Generator" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
+
 ## Starter Prompt
 
 Create an interactive risk heat map tool for healthcare device executives where users can enter risks, score them by likelihood and impact, and see a color-coded 5x5 heat map with a ranked risk list and recommended actions.

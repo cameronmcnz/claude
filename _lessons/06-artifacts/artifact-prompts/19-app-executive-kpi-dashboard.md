@@ -12,6 +12,10 @@ noindex: true
 
 A board-level KPI dashboard for medical device companies — financial performance, quality metrics, operations, and product pipeline in one polished view.
 
+## Live Artifact
+
+<iframe src="https://claude.site/public/artifacts/97018ecc-f87c-4f50-9356-537c957d44d0/embed" title="Medtech Executive KPI Dashboard" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
+
 ## Starter Prompt
 
 Create a polished executive KPI dashboard for a medical device company showing key metrics like revenue by product line, complaint rate, on-time delivery, regulatory submission success, and CAPA closure rate — styled for a board-level presentation.

@@ -12,6 +12,19 @@ noindex: true
 
 Upload a CSV of wind turbine locations, enter GPS coordinates, and find the nearest turbine with distance shown on a map — a good example of Claude building a data-driven interactive tool.
 
+<div style="margin:1.5rem 0;padding:1rem 1.25rem;background:#fff8f0;border:2px solid #ff6b00;border-radius:10px;display:flex;align-items:center;gap:1rem;">
+  <span style="font-size:1.5rem;">📥</span>
+  <div>
+    <strong style="color:#c2410c;">Sample data file required:</strong>
+    <a href="{{ site.baseurl }}/turbines.csv" download style="color:#c2410c;font-weight:700;margin-left:0.4rem;">Download turbines.csv</a>
+    — upload this file into the app below to try it out.
+  </div>
+</div>
+
+## Live Artifact
+
+<iframe src="https://claude.site/public/artifacts/255aade3-3f9c-440e-99b2-45d5fb32d55a/embed" title="Nearest Wind Turbine Locator" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
+
 ## Starter Prompt
 
 Create an interactive app where I can enter my GPS coordinates, upload a CSV of wind turbine locations, and find the nearest turbine with the distance shown on a map.
