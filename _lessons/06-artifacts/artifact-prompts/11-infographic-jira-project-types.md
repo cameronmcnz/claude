@@ -12,9 +12,6 @@ noindex: true
 
 A visual comparison of Team-managed and Company-managed Jira projects — benefits, trade-offs, migration warnings, and a decision guide.
 
-## Live Artifact
-
-<iframe src="https://claude.site/public/artifacts/aaaab1b9-dc0d-463b-bd96-29a96cf56451/embed" title="How to Choose Between Team and Company Managed Projects" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
 
 ## Starter Prompt
 

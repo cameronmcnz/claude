@@ -12,9 +12,6 @@ noindex: true
 
 A classic Snake game as a fully playable Claude Artifact — a great example of what Claude can build in a single prompt.
 
-## Live Artifact
-
-<iframe src="https://claude.site/public/artifacts/07147ef3-85b6-4fbb-9435-24e5471cd7dc/embed" title="Retro Snake Game" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
 
 ## Starter Prompt
 

@@ -21,9 +21,6 @@ Upload a CSV of wind turbine locations, enter GPS coordinates, and find the near
   </div>
 </div>
 
-## Live Artifact
-
-<iframe src="https://claude.site/public/artifacts/255aade3-3f9c-440e-99b2-45d5fb32d55a/embed" title="Nearest Wind Turbine Locator" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
 
 ## Starter Prompt
 

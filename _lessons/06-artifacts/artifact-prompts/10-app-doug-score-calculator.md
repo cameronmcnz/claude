@@ -12,9 +12,6 @@ noindex: true
 
 Score any vehicle using Doug DeMuro's famous 100-point format — Weekend and Daily categories, total DougScore, and a polished results display.
 
-## Live Artifact
-
-<iframe src="https://claude.site/public/artifacts/44c0ac75-b30c-4e93-94f4-af1a372039b3/embed" title="dougscore-calculator.html" width="100%" height="600" frameborder="0" allow="clipboard-write" allowfullscreen></iframe>
 
 ## Starter Prompt
 
