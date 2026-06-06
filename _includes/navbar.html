@@ -18,18 +18,81 @@
     </div>
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mt-3 mt-lg-0">
+
         <li class="nav-item">
           <a class="nav-link" href="{{ '/' | relative_url }}">Home</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}">Start Course</a>
+          <a class="nav-link" href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}">Course</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ site.baseurl }}/videos.html">Videos</a>
+        </li>
+
+        <!-- Courses dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">Classes</a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+            <li>
+              <a class="dropdown-item" href="{{ site.baseurl }}/course00/">
+                <i class="lni lni-briefcase me-2" style="color:var(--brand-violet);"></i>Executives
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ site.baseurl }}/course01/">
+                <i class="lni lni-star me-2" style="color:var(--brand-violet);"></i>Experts
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Resources dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+            <li>
+              <a class="dropdown-item" href="https://cameronmcnz.github.io/chatgpt/prompt-engineering/" target="_blank" rel="noopener">
+                <i class="lni lni-bolt me-2" style="color:var(--brand-violet);"></i>Prompts
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ site.baseurl }}/claude-book.pdf" target="_blank">
+                <i class="lni lni-files me-2" style="color:var(--brand-violet);"></i>PDF
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="https://certificationexams.pro" target="_blank" rel="noopener">
+                <i class="lni lni-certificate me-2" style="color:var(--brand-violet);"></i>Cert Site
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="https://www.udemy.com/user/c-mckenzie-4/" target="_blank" rel="noopener">
+                <i class="lni lni-play me-2" style="color:var(--brand-violet);"></i>Udemy
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- LinkedIn icon link -->
+        <li class="nav-item">
+          <a class="nav-link px-2" href="https://www.linkedin.com/in/cameronwmckenzie/" target="_blank" rel="noopener"
+             title="LinkedIn" aria-label="LinkedIn">
+            <i class="lni lni-linkedin-original" style="font-size:1.1rem;"></i>
+          </a>
+        </li>
+
         <li class="nav-item ms-lg-2">
           <a class="btn btn-brand btn-sm px-3"
              href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}">
             Begin <i class="lni lni-arrow-right ms-1"></i>
           </a>
         </li>
+
       </ul>
     </div>
   </div>
