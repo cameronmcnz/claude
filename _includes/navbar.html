@@ -27,10 +27,6 @@
           <a class="nav-link" href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}">Course</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="{{ site.baseurl }}/videos.html">Videos</a>
-        </li>
-
         <!-- Courses dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -54,6 +50,12 @@
           <a class="nav-link dropdown-toggle" href="#" role="button"
              data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+            <li>
+              <a class="dropdown-item" href="{{ site.baseurl }}/videos.html">
+                <i class="lni lni-play-circle me-2" style="color:var(--brand-violet);"></i>Videos
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
             <li>
               <a class="dropdown-item" href="https://cameronmcnz.github.io/chatgpt/prompt-engineering/" target="_blank" rel="noopener">
                 <i class="lni lni-bolt me-2" style="color:var(--brand-violet);"></i>Prompts

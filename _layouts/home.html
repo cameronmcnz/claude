@@ -12,20 +12,12 @@ layout: default
         <span class="badge badge-brand mb-3 px-3 py-2" style="font-size:0.8rem;letter-spacing:0.08em;">
           <i class="lni lni-graduation me-1"></i> Zero to Hero
         </span>
-        <h1 class="display-4 fw-800 text-white mb-3">Master Claude AI &mdash;<br class="d-none d-md-block"> from Chat to Cowork</h1>
+        <h1 class="display-4 fw-800 text-white mb-3">Master Claude AI:<br class="d-none d-md-block"> from Chat to Cowork</h1>
         <p class="text-white-75 fs-5 mb-4 mx-auto" style="max-width:600px;">
-          The complete beginner-to-hero course for using Claude Chat and Cowork — no coding required.
+          The complete beginner-to-hero course for using Claude Chat and Cowork
         </p>
-        <div class="d-flex flex-wrap gap-3 justify-content-center mb-5">
-          <a href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}" class="btn btn-brand btn-lg px-4">
-            Start the Course <i class="lni lni-arrow-right ms-1"></i>
-          </a>
-          <a href="#sections" class="btn btn-outline-brand btn-lg px-4 text-white border-white border-opacity-50">
-            View All Sections
-          </a>
-        </div>
         <!-- Stat counters -->
-        <div class="row g-3 justify-content-center">
+        <div class="row g-3 justify-content-center mb-4">
           <div class="col-4 col-sm-3">
             <div class="glass-panel py-3 px-2">
               <span class="metric-value counter text-white" data-target="14">0</span>
@@ -40,10 +32,15 @@ layout: default
           </div>
           <div class="col-4 col-sm-3">
             <div class="glass-panel py-3 px-2">
-              <span class="metric-value text-white" style="font-size:1.1rem;">Zero to Hero</span>
-              <div class="metric-label text-white-75">Outcome</div>
+              <span class="metric-value counter text-white" data-target="5150">0</span>
+              <div class="metric-label text-white-75">Cups of Coffee</div>
             </div>
           </div>
+        </div>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a href="{{ '/lessons/01-foundations/01-what-claude-is/' | relative_url }}" class="btn btn-brand btn-lg px-4">
+            Start the Course <i class="lni lni-arrow-right ms-1"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -98,6 +95,33 @@ layout: default
           <i class="lni lni-bolt feature-icon"></i>
           <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Cowork Automation</h5>
           <p class="text-muted small mb-0">Schedule recurring tasks, trigger work from your phone, and build a Claude system that runs without you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOOMS VIDEO SECTION -->
+<section style="background:linear-gradient(135deg,#3730a3 0%,#7c3aed 100%);padding:4rem 0;">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <span class="badge mb-3 px-3 py-2" style="background:rgba(255,255,255,0.15);color:#fff;font-size:0.8rem;letter-spacing:0.08em;">
+          <i class="lni lni-graduation me-1"></i> Course Philosophy
+        </span>
+        <h2 class="fw-800 text-white mb-3">Learning that actually sticks</h2>
+        <p class="mb-3" style="color:rgba(255,255,255,0.82);font-size:1.05rem;">
+          This course is built around Bloom's Taxonomy — the same framework educators use to take learners from basic recall all the way to real-world creation.
+        </p>
+        <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;">
+          Every section moves you up the ladder: from understanding what Claude is, to applying it in your work, to building systems that run on their own.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <div style="border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.35);">
+          <video controls preload="none" style="width:100%;display:block;background:#1e1b4b;">
+            <source src="{{ site.baseurl }}/blooms-taxonomy-of-learning.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
@@ -161,7 +185,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">04</span>
               <i class="lni lni-envelope" style="font-size:1.4rem;color:var(--brand-violet);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Connectors &mdash; Email, Calendar &amp; Ecosystem</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Connectors : Email, Calendar &amp; Ecosystem</h5>
             <p class="text-muted small mb-0">Connect your email and calendar for natural-language search, summarization, and drafting.</p>
           </div>
         </a>
@@ -237,7 +261,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">09</span>
               <i class="lni lni-laptop" style="font-size:1.4rem;color:var(--brand-cyan);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Meet Cowork &mdash; The Agentic Desktop</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Meet Cowork : The Agentic Desktop</h5>
             <p class="text-muted small mb-0">The desktop app that lets Claude work autonomously with your files and tools.</p>
           </div>
         </a>
@@ -249,7 +273,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">10</span>
               <i class="lni lni-timer" style="font-size:1.4rem;color:var(--brand-cyan);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Automation &mdash; Scheduled &amp; Recurring Tasks</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Automation : Scheduled &amp; Recurring Tasks</h5>
             <p class="text-muted small mb-0">Schedule recurring tasks: daily digests, weekly reports, and hands-free automations.</p>
           </div>
         </a>
@@ -261,7 +285,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">11</span>
               <i class="lni lni-mobile" style="font-size:1.4rem;color:var(--brand-cyan);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Dispatch &mdash; Run Cowork from Your Phone</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Dispatch : Run Cowork from Your Phone</h5>
             <p class="text-muted small mb-0">Trigger your desktop Cowork session from anywhere using your phone.</p>
           </div>
         </a>
@@ -273,7 +297,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">12</span>
               <i class="lni lni-display" style="font-size:1.4rem;color:var(--brand-cyan);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Computer Use &mdash; Letting Claude Operate Your Apps</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Computer Use : Letting Claude Operate Your Apps</h5>
             <p class="text-muted small mb-0">When Claude needs to click and type in real desktop apps with no connector.</p>
           </div>
         </a>
@@ -285,7 +309,7 @@ layout: default
               <span class="badge badge-soft px-2 py-1 fw-700">13</span>
               <i class="lni lni-dashboard" style="font-size:1.4rem;color:var(--brand-cyan);"></i>
             </div>
-            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Live Artifacts &mdash; Self-Updating Dashboards &amp; Tools</h5>
+            <h5 class="fw-700 mb-1" style="color:var(--brand-indigo);">Live Artifacts : Self-Updating Dashboards &amp; Tools</h5>
             <p class="text-muted small mb-0">Connect artifacts to live data for self-updating dashboards and always-current reports.</p>
           </div>
         </a>
